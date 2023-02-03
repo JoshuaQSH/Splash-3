@@ -18,7 +18,6 @@
 
 
 
-#include <pthread.h>
 #include <stdlib.h>
 #include <semaphore.h>
 #include <assert.h>
@@ -27,11 +26,7 @@
 #endif
 #include <stdint.h>
 #define PAGE_SIZE 4096
-#define __MAX_THREADS__ 256
 
-extern pthread_t __tid__[__MAX_THREADS__];
-extern unsigned __threads__;
-extern pthread_mutex_t __intern__;
 
 #define global extern
 

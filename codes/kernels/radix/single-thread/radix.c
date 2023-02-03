@@ -64,13 +64,12 @@
 #endif
 #include <stdint.h>
 #define PAGE_SIZE 4096
-#define __MAX_THREADS__ 256
 
 
 struct prefix_node {
    long densities[MAX_RADIX];
    long ranks[MAX_RADIX];
-   sem_t done;
+   // sem_t done;
    char pad[PAGE_SIZE];
 };
 
@@ -149,8 +148,8 @@ int main(int argc, char *argv[])
                 }
                 if (number_of_processors > MAX_PROCESSORS) {
                   printerr("Maximum processors (MAX_PROCESSORS) exceeded\n"); 
-		  exit(-1);
-		}
+      exit(-1);
+    }
                 break;
       case 'r': radix = atoi(optarg);
                 if (radix < 1) {
@@ -193,7 +192,7 @@ int main(int argc, char *argv[])
                 printf("   -h  : Print out command line options.\n\n");
                 printf("Default: RADIX -p%1d -n%1d -r%1d -m%1d\n",
                         DEFAULT_P,DEFAULT_N,DEFAULT_R,DEFAULT_M);
-		exit(0);
+    exit(0);
      }
    }
 
@@ -202,8 +201,8 @@ int main(int argc, char *argv[])
    log2_keys = log_2(num_keys);
    global = (struct global_memory *) malloc(sizeof(struct global_memory));;
    if (global == NULL) {
-	   fprintf(stderr,"ERROR: Cannot malloc enough memory for global\n");
-	   exit(-1);
+     fprintf(stderr,"ERROR: Cannot malloc enough memory for global\n");
+     exit(-1);
    }
    key[0] = (long *) malloc(num_keys*sizeof(long));;
    key[1] = (long *) malloc(num_keys*sizeof(long));;
@@ -232,10 +231,11 @@ int main(int argc, char *argv[])
      gp[i].rank_ff = (long *) malloc(radix*sizeof(long)+PAGE_SIZE);;
    }
 
-   
+   #if 0
    for (i=0; i<2*number_of_processors; i++) {
      {sem_init(&(global->prefix_tree[i].done),0,0);};
    }
+   #endif
 
    global->Index = 0;
    max_num_digits = get_max_digits(max_key);
@@ -277,10 +277,9 @@ int main(int argc, char *argv[])
    }
    rank_partition[p] = radix;
 
-	slave_sort();
-};
-
-   printf("\n");
+  slave_sort();
+   
+  printf("\n");
    printf("                 PROCESS STATISTICS\n");
    printf("               Total            Rank            Sort\n");
    printf(" Proc          Time             Time            Time\n");
@@ -328,8 +327,6 @@ int main(int argc, char *argv[])
      printf("\n");
    }
 
-   ;
-
    printf("\n");
    global->starttime = start;
    printf("                 TIMING INFORMATION\n");
@@ -348,9 +345,11 @@ int main(int argc, char *argv[])
    if (doprint) {
      printout();
    }
+
    if (test_result) {
      test_sort(global->final);  
    }
+}
 
 void slave_sort()
 {
@@ -429,9 +428,12 @@ void slave_sort()
        {long time(); (time2) = time(0);}
      }
 
+#if 0
      for (i = 0; i < radix; i++) {
        rank_me_mynum[i] = 0;
-     }  
+     }
+#endif
+
      key_from = (long *) key[from];
      key_to = (long *) key[to];
      for (i=key_start;i<key_stop;i++) {
@@ -446,24 +448,35 @@ void slave_sort()
   
 
      n = &(global->prefix_tree[MyNum]);
+
+     #if 0
      for (i = 0; i < radix; i++) {
         n->densities[i] = key_density[i];
         n->ranks[i] = rank_me_mynum[i];
      }
+     #endif
+
      offset = MyNum;
      level = number_of_processors >> 1;
      base = number_of_processors;
+     
+     #if 0
      if ((MyNum & 0x1) == 0) {
         {sem_post(&(global->prefix_tree[base + (offset >> 1)].done));};
      }
+     #endif
+
      while ((offset & 0x1) != 0) {
        offset >>= 1;
        r = n;
        l = n - 1;
        index = base + offset;
        n = &(global->prefix_tree[index]);
+
+       #if 0
        {sem_wait(&(n->done));};
-       {;};
+       #endif
+
        if (offset != (level - 1)) {
          for (i = 0; i < radix; i++) {
            n->densities[i] = r->densities[i] + l->densities[i];
@@ -476,9 +489,11 @@ void slave_sort()
        }
        base += level;
        level >>= 1;
+       #if 0
        if ((offset & 0x1) == 0) {
          {sem_post(&(global->prefix_tree[base + (offset >> 1)].done));};
        }
+       #endif
      }
 
      if (MyNum != (number_of_processors - 1)) {
@@ -500,8 +515,11 @@ void slave_sort()
          level >>= 1;
        }
        their_node = &(global->prefix_tree[base + offset]);
+
+       #if 0
        {sem_wait(&(my_node->done));};
-       {;};
+       #endif
+
        for (i = 0; i < radix; i++) {
          my_node->densities[i] = their_node->densities[i];
        }
@@ -512,7 +530,10 @@ void slave_sort()
      level = number_of_processors;
      base = 0;
      while ((offset & 0x1) != 0) {
+      #if 0
        {sem_post(&(global->prefix_tree[base + offset - 1].done));};
+      #endif
+
        offset >>= 1;
        base += level;
        level >>= 1;
@@ -520,24 +541,34 @@ void slave_sort()
      offset = MyNum;
      level = number_of_processors;
      base = 0;
+     
+     #if 0
      for(i = 0; i < radix; i++) {
        rank_ff_mynum[i] = 0;
      }
+     #endif
+
      while (offset != 0) {
        if ((offset & 0x1) != 0) {
          /* Add ranks of node to your left at this level */
          l = &(global->prefix_tree[base + offset - 1]);
+         
+         #if 0
          for (i = 0; i < radix; i++) {
            rank_ff_mynum[i] += l->ranks[i];
          }
+         #endif
+
        }
        base += level;
        level >>= 1;
        offset >>= 1;
      }
+#if 0
      for (i = 1; i < radix; i++) {
        rank_ff_mynum[i] += my_node->densities[i - 1];
      }
+#endif
 
      if ((MyNum == 0) || (stats)) {
        {long time(); (time3) = time(0);};
@@ -577,14 +608,13 @@ void slave_sort()
      {long time(); (time6) = time(0);}
      global->ranktime[MyNum] = ranktime;
      global->sorttime[MyNum] = sorttime;
-     global->totaltime[MyNum] = time6-time1;
+     // global->totaltime[MyNum] = time6-time1;
    }
    if (MyNum == 0) {
      global->rs = time1;
      global->rf = time6;
      global->final = to;
    }
-
 }
 
 /*
@@ -596,7 +626,7 @@ double product_mod_46(double t1, double t2)
    double b1;
    double a2;
    double b2;
-			
+      
    a1 = (double)((long)(t1 / RADIX_S));    /* Decompose the arguments.  */
    a2 = t1 - a1 * RADIX_S;
    b1 = (double)((long)(t2 / RADIX_S));
@@ -616,9 +646,8 @@ double product_mod_46(double t1, double t2)
 double ran_num_init(unsigned long k, double b, double t)
 {
    unsigned long j;
-
    while (k != 0) {             /* while() is executed m times
-				   such that 2^m > k.  */
+           such that 2^m > k.  */
       j = k >> 1;
       if ((j << 1) != k) {
          b = product_mod_46(b, t);
@@ -774,4 +803,5 @@ void printout()
    }
    printf("\n");
 }
+
 

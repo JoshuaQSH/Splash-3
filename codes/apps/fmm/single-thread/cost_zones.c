@@ -50,16 +50,13 @@ CostZones (long my_id)
 {
    PartitionIterate(my_id, ComputeSubTreeCosts, BOTTOM);
    {
-pthread_mutex_lock(&((G_Memory->synch).bar_mutex));
+
 (G_Memory->synch).bar_teller++;
 if ((G_Memory->synch).bar_teller == (Number_Of_Processors)) {
 	(G_Memory->synch).bar_teller = 0;
-	pthread_cond_broadcast(&((G_Memory->synch).bar_cond));
-} else {
-	pthread_cond_wait(&((G_Memory->synch).bar_cond), &((G_Memory->synch).bar_mutex));
-}
-pthread_mutex_unlock(&((G_Memory->synch).bar_mutex));}
-;
+
+} 
+
    Local[my_id].Total_Work = Grid->subtree_cost;
    Local[my_id].Min_Work = ((Local[my_id].Total_Work / Number_Of_Processors)
 			   * my_id);
@@ -72,16 +69,11 @@ pthread_mutex_unlock(&((G_Memory->synch).bar_mutex));}
    InitPartition(my_id);
    CostZonesHelper(my_id, Grid, 0, RIGHT);
    {
-pthread_mutex_lock(&((G_Memory->synch).bar_mutex));
 (G_Memory->synch).bar_teller++;
 if ((G_Memory->synch).bar_teller == (Number_Of_Processors)) {
 	(G_Memory->synch).bar_teller = 0;
-	pthread_cond_broadcast(&((G_Memory->synch).bar_cond));
-} else {
-	pthread_cond_wait(&((G_Memory->synch).bar_cond), &((G_Memory->synch).bar_mutex));
-}
-pthread_mutex_unlock(&((G_Memory->synch).bar_mutex));}
-;
+} 
+
 }
 
 
@@ -90,22 +82,15 @@ ComputeSubTreeCosts (long my_id, box *b)
 {
    box *pb;
 
-   {pthread_mutex_lock(&((G_Memory->lock_array)[(b->exp_lock_index)]));};
-   if (b->type == PARENT) {
-	   while(b->interaction_synch != b->num_children)
-		   { pthread_cond_wait(&(b->interaction_synch_cv), &(((G_Memory->lock_array)[b->exp_lock_index]))); };
-   }
    b->interaction_synch = 0;
-   {pthread_mutex_unlock(&((G_Memory->lock_array)[(b->exp_lock_index)]));};
    ComputeCostOfBox(b);
    b->subtree_cost += b->cost;
    pb = b->parent;
    if (pb != NULL) {
-      {pthread_mutex_lock(&((G_Memory->lock_array)[(pb->exp_lock_index)]));};
+
       pb->subtree_cost += b->subtree_cost;
       pb->interaction_synch += 1;
-      { pthread_cond_broadcast(&(pb->interaction_synch_cv)); };
-      {pthread_mutex_unlock(&((G_Memory->lock_array)[(pb->exp_lock_index)]));};
+
    }
 }
 

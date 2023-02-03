@@ -49,9 +49,6 @@ global long maxmycell;		/* max num. of cells to be allocated */
 global long maxmyleaf;		/* max num. of leaves to be allocated */
 global bodyptr bodytab; 	/* array size is exactly nbody bodies */
 
-global struct CellLockType {
-    pthread_mutex_t (CL)[MAXLOCK];        /* locks on the cells*/
-} *CellLock;
 
 struct GlobalMemory  {	/* all this info is for the whole system */
     long n2bcalc;       /* total number of body/cell interactions  */
@@ -68,16 +65,7 @@ struct GlobalMemory  {	/* all this info is for the whole system */
     vector min;        /* temporary lower-left corner of the box  */
     vector max;        /* temporary upper right corner of the box */
     real rsize;        /* side-length of integer coordinate box   */
-    struct { pthread_mutex_t bar_mutex; pthread_cond_t bar_cond; unsigned bar_teller; } Barstart;   /* barrier at the beginning of stepsystem  */
-    struct { pthread_mutex_t bar_mutex; pthread_cond_t bar_cond; unsigned bar_teller; } Bartree;    /* barrier after loading the tree          */
-    struct { pthread_mutex_t bar_mutex; pthread_cond_t bar_cond; unsigned bar_teller; } Barcom;     /* barrier after computing the c. of m.    */
-    struct { pthread_mutex_t bar_mutex; pthread_cond_t bar_cond; unsigned bar_teller; } Barload;    
-    struct { pthread_mutex_t bar_mutex; pthread_cond_t bar_cond; unsigned bar_teller; } Baraccel;   /* barrier after accel and before output   */
-    struct { pthread_mutex_t bar_mutex; pthread_cond_t bar_cond; unsigned bar_teller; } Barpos;     /* barrier after computing the new pos     */
-    pthread_mutex_t CountLock; /* Lock on the shared variables            */
-    pthread_mutex_t NcellLock; /* Lock on the counter of array of cells for loadtree */
-    pthread_mutex_t NleafLock;/* Lock on the counter of array of leaves for loadtree */
-    pthread_mutex_t io_lock;
+    
     unsigned long createstart,createend,computestart,computeend;
     unsigned long trackstart, trackend, tracktime;
     unsigned long partitionstart, partitionend, partitiontime;

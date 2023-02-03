@@ -73,40 +73,6 @@ extern double *f;
 extern double ****q_multi;
 extern double ****rhs_multi;
 
-struct locks_struct {
-   pthread_mutex_t idlock;
-   pthread_mutex_t psiailock;
-   pthread_mutex_t psibilock;
-   pthread_mutex_t donelock;
-   pthread_mutex_t error_lock;
-   pthread_mutex_t bar_lock;
-};
-
-extern struct locks_struct *locks;
-
-struct bars_struct {
-   struct { pthread_mutex_t bar_mutex; pthread_cond_t bar_cond; unsigned bar_teller; } iteration;
-   struct { pthread_mutex_t bar_mutex; pthread_cond_t bar_cond; unsigned bar_teller; } gsudn;
-   struct { pthread_mutex_t bar_mutex; pthread_cond_t bar_cond; unsigned bar_teller; } p_setup;
-   struct { pthread_mutex_t bar_mutex; pthread_cond_t bar_cond; unsigned bar_teller; } p_redph;
-   struct { pthread_mutex_t bar_mutex; pthread_cond_t bar_cond; unsigned bar_teller; } p_soln;
-   struct { pthread_mutex_t bar_mutex; pthread_cond_t bar_cond; unsigned bar_teller; } p_subph;
-   struct { pthread_mutex_t bar_mutex; pthread_cond_t bar_cond; unsigned bar_teller; } sl_prini;
-   struct { pthread_mutex_t bar_mutex; pthread_cond_t bar_cond; unsigned bar_teller; } sl_psini;
-   struct { pthread_mutex_t bar_mutex; pthread_cond_t bar_cond; unsigned bar_teller; } sl_onetime;
-   struct { pthread_mutex_t bar_mutex; pthread_cond_t bar_cond; unsigned bar_teller; } sl_phase_1;
-   struct { pthread_mutex_t bar_mutex; pthread_cond_t bar_cond; unsigned bar_teller; } sl_phase_2;
-   struct { pthread_mutex_t bar_mutex; pthread_cond_t bar_cond; unsigned bar_teller; } sl_phase_3;
-   struct { pthread_mutex_t bar_mutex; pthread_cond_t bar_cond; unsigned bar_teller; } sl_phase_4;
-   struct { pthread_mutex_t bar_mutex; pthread_cond_t bar_cond; unsigned bar_teller; } sl_phase_5;
-   struct { pthread_mutex_t bar_mutex; pthread_cond_t bar_cond; unsigned bar_teller; } sl_phase_6;
-   struct { pthread_mutex_t bar_mutex; pthread_cond_t bar_cond; unsigned bar_teller; } sl_phase_7;
-   struct { pthread_mutex_t bar_mutex; pthread_cond_t bar_cond; unsigned bar_teller; } sl_phase_8;
-   struct { pthread_mutex_t bar_mutex; pthread_cond_t bar_cond; unsigned bar_teller; } sl_phase_9;
-   struct { pthread_mutex_t bar_mutex; pthread_cond_t bar_cond; unsigned bar_teller; } sl_phase_10;
-   struct { pthread_mutex_t bar_mutex; pthread_cond_t bar_cond; unsigned bar_teller; } error_barrier;
-};
-
 extern struct bars_struct *bars;
 
 extern double factjacob;

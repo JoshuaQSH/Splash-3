@@ -21,7 +21,6 @@
  */
 
 
-#include <pthread.h>
 #include <stdlib.h>
 #include <semaphore.h>
 #include <assert.h>
@@ -30,11 +29,7 @@
 #endif
 #include <stdint.h>
 #define PAGE_SIZE 4096
-#define __MAX_THREADS__ 256
 
-extern pthread_t __tid__[__MAX_THREADS__];
-extern unsigned __threads__;
-extern pthread_mutex_t __intern__;
 
 #define global extern
 
@@ -123,7 +118,7 @@ void output(long ProcessId)
    diagnostics(ProcessId);
 
    if (Local[ProcessId].mymtot!=0) {
-      {pthread_mutex_lock(&(Global->CountLock));};
+
       Global->n2bcalc += Local[ProcessId].myn2bcalc;
       Global->nbccalc += Local[ProcessId].mynbccalc;
       Global->selfint += Local[ProcessId].myselfint;
@@ -142,20 +137,7 @@ void output(long ProcessId)
       ADDV(tempv1, tempv1, tempv2);
       DIVVS(Global->cmphase[1], tempv1, Global->mtot+Local[ProcessId].mymtot);
       Global->mtot +=Local[ProcessId].mymtot;
-      {pthread_mutex_unlock(&(Global->CountLock));};
    }
-    
-   {
-pthread_mutex_lock(&((Global->Baraccel).bar_mutex));
-(Global->Baraccel).bar_teller++;
-if ((Global->Baraccel).bar_teller == (NPROC)) {
-	(Global->Baraccel).bar_teller = 0;
-	pthread_cond_broadcast(&((Global->Baraccel).bar_cond));
-} else {
-	pthread_cond_wait(&((Global->Baraccel).bar_cond), &((Global->Baraccel).bar_mutex));
-}
-pthread_mutex_unlock(&((Global->Baraccel).bar_mutex));}
-;
     
    if (ProcessId==0) {
       nttot = Global->n2bcalc + Global->nbccalc;

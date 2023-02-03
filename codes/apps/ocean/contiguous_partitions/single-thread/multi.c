@@ -23,7 +23,6 @@
 
 
 
-#include <pthread.h>
 #include <stdlib.h>
 #include <semaphore.h>
 #include <assert.h>
@@ -32,11 +31,7 @@
 #endif
 #include <stdint.h>
 #define PAGE_SIZE 4096
-#define __MAX_THREADS__ 256
 
-extern pthread_t __tid__[__MAX_THREADS__];
-extern unsigned __threads__;
-extern pthread_mutex_t __intern__;
 
 
 #include <stdio.h>
@@ -82,16 +77,6 @@ void multig(long my_id)
 /* barrier to make sure all procs have finished intadd or rescal   */
 /* before proceeding with relaxation                               */
 
-     {
-pthread_mutex_lock(&((bars->error_barrier).bar_mutex));
-(bars->error_barrier).bar_teller++;
-if ((bars->error_barrier).bar_teller == (nprocs)) {
-	(bars->error_barrier).bar_teller = 0;
-	pthread_cond_broadcast(&((bars->error_barrier).bar_cond));
-} else {
-	pthread_cond_wait(&((bars->error_barrier).bar_cond), &((bars->error_barrier).bar_mutex));
-}
-pthread_mutex_unlock(&((bars->error_barrier).bar_mutex));}
   
      copy_black(k,my_num);
 
@@ -99,16 +84,6 @@ pthread_mutex_unlock(&((bars->error_barrier).bar_mutex));}
 
 /* barrier to make sure all red computations have been performed   */
 
-     {
-pthread_mutex_lock(&((bars->error_barrier).bar_mutex));
-(bars->error_barrier).bar_teller++;
-if ((bars->error_barrier).bar_teller == (nprocs)) {
-	(bars->error_barrier).bar_teller = 0;
-	pthread_cond_broadcast(&((bars->error_barrier).bar_cond));
-} else {
-	pthread_cond_wait(&((bars->error_barrier).bar_cond), &((bars->error_barrier).bar_mutex));
-}
-pthread_mutex_unlock(&((bars->error_barrier).bar_mutex));}
   
      copy_red(k,my_num);
 
@@ -124,11 +99,11 @@ pthread_mutex_unlock(&((bars->error_barrier).bar_mutex));}
 
 /* update the global error if necessary                         */
 
-     {pthread_mutex_lock(&(locks->error_lock));}
+
      if (local_err > multi->err_multi) {
        multi->err_multi = local_err;
      }
-     {pthread_mutex_unlock(&(locks->error_lock));}
+
 
 /* a single relaxation sweep at the finest level is one unit of    */
 /* work                                                            */
@@ -137,16 +112,6 @@ pthread_mutex_unlock(&((bars->error_barrier).bar_mutex));}
 
 /* barrier to make sure all processors have checked local error    */
 
-     {
-pthread_mutex_lock(&((bars->error_barrier).bar_mutex));
-(bars->error_barrier).bar_teller++;
-if ((bars->error_barrier).bar_teller == (nprocs)) {
-	(bars->error_barrier).bar_teller = 0;
-	pthread_cond_broadcast(&((bars->error_barrier).bar_cond));
-} else {
-	pthread_cond_wait(&((bars->error_barrier).bar_cond), &((bars->error_barrier).bar_mutex));
-}
-pthread_mutex_unlock(&((bars->error_barrier).bar_mutex));}
   
 
      g_error = multi->err_multi;
@@ -154,16 +119,6 @@ pthread_mutex_unlock(&((bars->error_barrier).bar_mutex));}
 /* barrier to make sure master does not cycle back to top of loop  */
 /* and reset global->err before we read it and decide what to do   */
 
-     {
-pthread_mutex_lock(&((bars->error_barrier).bar_mutex));
-(bars->error_barrier).bar_teller++;
-if ((bars->error_barrier).bar_teller == (nprocs)) {
-	(bars->error_barrier).bar_teller = 0;
-	pthread_cond_broadcast(&((bars->error_barrier).bar_cond));
-} else {
-	pthread_cond_wait(&((bars->error_barrier).bar_cond), &((bars->error_barrier).bar_mutex));
-}
-pthread_mutex_unlock(&((bars->error_barrier).bar_mutex));}
   
 
      if (g_error >= lev_tol[k]) {
@@ -186,16 +141,6 @@ pthread_mutex_unlock(&((bars->error_barrier).bar_mutex));}
    border points have been written before we try computing the new
    rescal values                                                   */
 
-           {
-pthread_mutex_lock(&((bars->error_barrier).bar_mutex));
-(bars->error_barrier).bar_teller++;
-if ((bars->error_barrier).bar_teller == (nprocs)) {
-	(bars->error_barrier).bar_teller = 0;
-	pthread_cond_broadcast(&((bars->error_barrier).bar_cond));
-} else {
-	pthread_cond_wait(&((bars->error_barrier).bar_cond), &((bars->error_barrier).bar_mutex));
-}
-pthread_mutex_unlock(&((bars->error_barrier).bar_mutex));}
     
 
            rescal(k,my_num);

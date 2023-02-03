@@ -68,8 +68,6 @@ Command line options:
 */
 
 
-
-#include <pthread.h>
 #include <stdlib.h>
 #include <semaphore.h>
 #include <assert.h>
@@ -78,12 +76,6 @@ Command line options:
 #endif
 #include <stdint.h>
 #define PAGE_SIZE 4096
-#define __MAX_THREADS__ 256
-
-pthread_t __tid__[__MAX_THREADS__];
-unsigned __threads__=0;
-pthread_mutex_t __intern__;
-
 
 #define global  /* nada */
 
@@ -286,25 +278,8 @@ int main (int argc, string argv[])
 
    printf("COMPUTESTART  = %12lu\n",Global->computestart);
 
-   ;
-   {
-	long	i, Error;
-
-	assert(__threads__<__MAX_THREADS__);
-	pthread_mutex_lock(&__intern__);
-	for (i = 0; i < (NPROC) - 1; i++) {
-		Error = pthread_create(&__tid__[__threads__++], NULL, (void * (*)(void *))(SlaveStart), NULL);
-		if (Error != 0) {
-			printf("Error in pthread_create().\n");
-			exit(-1);
-		}
-	}
-	pthread_mutex_unlock(&__intern__);
 
 	SlaveStart();
-};
-   {int aantal=NPROC; while (aantal--) pthread_join(__tid__[aantal], NULL);};
-   ;
 
    {long time(); (Global->computeend) = time(0);};
 
@@ -336,40 +311,6 @@ void ANLinit()
 
    Global = (struct GlobalMemory *) malloc(sizeof(struct GlobalMemory));;
    if (Global==NULL) error("No initialization for Global\n");
-    
-   {
-	pthread_mutex_init(&((Global->Barload).bar_mutex), NULL);
-	pthread_cond_init(&((Global->Barload).bar_cond), NULL);
-	(Global->Barload).bar_teller=0;
-};
-   {
-	pthread_mutex_init(&((Global->Bartree).bar_mutex), NULL);
-	pthread_cond_init(&((Global->Bartree).bar_cond), NULL);
-	(Global->Bartree).bar_teller=0;
-};
-   {
-	pthread_mutex_init(&((Global->Barcom).bar_mutex), NULL);
-	pthread_cond_init(&((Global->Barcom).bar_cond), NULL);
-	(Global->Barcom).bar_teller=0;
-};
-   {
-	pthread_mutex_init(&((Global->Baraccel).bar_mutex), NULL);
-	pthread_cond_init(&((Global->Baraccel).bar_cond), NULL);
-	(Global->Baraccel).bar_teller=0;
-};
-   {
-	pthread_mutex_init(&((Global->Barstart).bar_mutex), NULL);
-	pthread_cond_init(&((Global->Barstart).bar_cond), NULL);
-	(Global->Barstart).bar_teller=0;
-};
-   {
-	pthread_mutex_init(&((Global->Barpos).bar_mutex), NULL);
-	pthread_cond_init(&((Global->Barpos).bar_cond), NULL);
-	(Global->Barpos).bar_teller=0;
-};
-
-   {pthread_mutex_init(&(Global->CountLock),NULL);};
-   {pthread_mutex_init(&(Global->io_lock),NULL);};
 }
 
 /*
@@ -383,7 +324,7 @@ void init_root()
    Global->G_root->seqnum = 0;
    Type(Global->G_root) = CELL;
    Done(Global->G_root) = FALSE;
-	pthread_cond_init(&(Done_cv(Global->G_root)), NULL);;
+
    Level(Global->G_root) = IMAX >> 1;
    for (i = 0; i < NSUB; i++) {
       Subp(Global->G_root)[i] = NULL;
@@ -439,8 +380,6 @@ void tab_init()
    Local[0].mycelltab = (cellptr*) malloc(NPROC*maxmycell*sizeof(cellptr));;
    Local[0].myleaftab = (leafptr*) malloc(NPROC*maxmyleaf*sizeof(leafptr));;
 
-   CellLock = (struct CellLockType *) malloc(sizeof(struct CellLockType));;
-   { int i; for(i = 0; i < (MAXLOCK); i++) pthread_mutex_init(&((CellLock->CL)[i]), NULL); };
 }
 
 /*
@@ -451,9 +390,7 @@ void SlaveStart()
    long ProcessId;
 
    /* Get unique ProcessId */
-   {pthread_mutex_lock(&(Global->CountLock));};
-     ProcessId = Global->current_id++;
-   {pthread_mutex_unlock(&(Global->CountLock));};
+   ProcessId = Global->current_id++;
 
 /* POSSIBLE ENHANCEMENT:  Here is where one might pin processes to
    processors to avoid migration */
@@ -466,34 +403,6 @@ void SlaveStart()
    /* before create                              */
    Local[ProcessId].mycelltab = Local[0].mycelltab + (maxmycell * ProcessId);
    Local[ProcessId].myleaftab = Local[0].myleaftab + (maxmyleaf * ProcessId);
-/* POSSIBLE ENHANCEMENT:  Here is where one might distribute the
-   data across physically distributed memories as desired.
-
-   One way to do this is as follows:
-
-   long i;
-
-   if (ProcessId == 0) {
-     for (i=0;i<NPROC;i++) {
-       Place all addresses x such that
-         &(Local[i]) <= x < &(Local[i])+
-           sizeof(struct local_memory) on node i
-       Place all addresses x such that
-         &(Local[i].mybodytab) <= x < &(Local[i].mybodytab)+
-           maxmybody * sizeof(bodyptr) - 1 on node i
-       Place all addresses x such that
-         &(Local[i].mycelltab) <= x < &(Local[i].mycelltab)+
-           maxmycell * sizeof(cellptr) - 1 on node i
-       Place all addresses x such that
-         &(Local[i].myleaftab) <= x < &(Local[i].myleaftab)+
-           maxmyleaf * sizeof(leafptr) - 1 on node i
-     }
-   }
-
-   barrier(Global->Barstart,NPROC);
-
-*/
-
    Local[ProcessId].tout = Local[0].tout;
    Local[ProcessId].tnow = Local[0].tnow;
    Local[ProcessId].nstep = Local[0].nstep;
@@ -696,19 +605,6 @@ void stepsystem(long ProcessId)
     }
 
 
-    /* start at same time */
-    {
-pthread_mutex_lock(&((Global->Barstart).bar_mutex));
-(Global->Barstart).bar_teller++;
-if ((Global->Barstart).bar_teller == (NPROC)) {
-	(Global->Barstart).bar_teller = 0;
-	pthread_cond_broadcast(&((Global->Barstart).bar_cond));
-} else {
-	pthread_cond_wait(&((Global->Barstart).bar_cond), &((Global->Barstart).bar_mutex));
-}
-pthread_mutex_unlock(&((Global->Barstart).bar_mutex));}
-;
-
     if ((ProcessId == 0) && (Local[ProcessId].nstep >= 2)) {
         {long time(); (treebuildstart) = time(0);};
     }
@@ -759,13 +655,7 @@ pthread_mutex_unlock(&((Global->Barstart).bar_mutex));}
        MULVS(dvel, Acc(p), dthf);
        ADDV(vel1, Vel(p), dvel);
        MULVS(dpos, vel1, dtime);
-#ifndef WITH_NO_OPTIONAL_LOCKS
-		{pthread_mutex_lock(&((CellLock->CL)[(((bodyptr) p)->parent->seqnum % MAXLOCK)]));};
-#endif // WITH_NO_OPTIONAL_LOCKS
-       ADDV(Pos(p), Pos(p), dpos);
-#ifndef WITH_NO_OPTIONAL_LOCKS
-		{pthread_mutex_unlock(&((CellLock->CL)[(((bodyptr) p)->parent->seqnum % MAXLOCK)]));};
-#endif // WITH_NO_OPTIONAL_LOCKS
+      // WITH_NO_OPTIONAL_LOCKS
        ADDV(Vel(p), vel1, dvel);
 
        for (i = 0; i < NDIM; i++) {
@@ -777,7 +667,7 @@ pthread_mutex_unlock(&((Global->Barstart).bar_mutex));}
 	  }
        }
     }
-    {pthread_mutex_lock(&(Global->CountLock));};
+
     for (i = 0; i < NDIM; i++) {
        if (Global->min[i] > Local[ProcessId].min[i]) {
 	  Global->min[i] = Local[ProcessId].min[i];
@@ -786,22 +676,11 @@ pthread_mutex_unlock(&((Global->Barstart).bar_mutex));}
 	  Global->max[i] = Local[ProcessId].max[i];
        }
     }
-    {pthread_mutex_unlock(&(Global->CountLock));};
+
 
     /* bar needed to make sure that every process has computed its min */
     /* and max coordinates, and has accumulated them into the global   */
     /* min and max, before the new dimensions are computed	       */
-    {
-pthread_mutex_lock(&((Global->Barpos).bar_mutex));
-(Global->Barpos).bar_teller++;
-if ((Global->Barpos).bar_teller == (NPROC)) {
-	(Global->Barpos).bar_teller = 0;
-	pthread_cond_broadcast(&((Global->Barpos).bar_cond));
-} else {
-	pthread_cond_wait(&((Global->Barpos).bar_cond), &((Global->Barpos).bar_mutex));
-}
-pthread_mutex_unlock(&((Global->Barpos).bar_mutex));}
-;
 
     if ((ProcessId == 0) && (Local[ProcessId].nstep >= 2)) {
         {long time(); (trackend) = time(0);};
@@ -873,17 +752,6 @@ void find_my_initial_bodies(bodyptr btab, long nbody, long ProcessId)
   for (i=0; i < Local[ProcessId].mynbody; i++) {
      Local[ProcessId].mybodytab[i] = &(btab[offset+i]);
   }
-  {
-pthread_mutex_lock(&((Global->Barstart).bar_mutex));
-(Global->Barstart).bar_teller++;
-if ((Global->Barstart).bar_teller == (NPROC)) {
-	(Global->Barstart).bar_teller = 0;
-	pthread_cond_broadcast(&((Global->Barstart).bar_cond));
-} else {
-	pthread_cond_wait(&((Global->Barstart).bar_cond), &((Global->Barstart).bar_mutex));
-}
-pthread_mutex_unlock(&((Global->Barstart).bar_mutex));}
-;
 }
 
 

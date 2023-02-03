@@ -98,9 +98,7 @@ struct _Box
   long exp_lock_index;
   long particle_lock_index;
   long construct_synch;
-  pthread_cond_t construct_synch_cv;;
   long interaction_synch;
-  pthread_cond_t interaction_synch_cv;;
   long proc;
   long cost;
   long u_cost;

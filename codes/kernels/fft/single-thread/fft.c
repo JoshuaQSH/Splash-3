@@ -593,7 +593,6 @@ void FFT1D(long direction, long M, long N, double *x, double *scratch, double *u
       CopyColumn(n1, &scratch[2*j*(n1+pad_length)], &x[2*j*(n1+pad_length)]); 
     }  
   }
-
 }
 
 
@@ -619,7 +618,6 @@ void TwiddleOneCol(long direction, long n1, long j, double *u, double *x, long p
 void Scale(long n1, long N, double *x)
 {
   long i;
-
   for (i=0; i<n1; i++) {
     x[2*i] /= N;
     x[2*i+1] /= N;

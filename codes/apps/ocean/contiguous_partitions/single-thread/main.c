@@ -42,8 +42,6 @@
 /*************************************************************************/
 
 
-
-#include <pthread.h>
 #include <stdlib.h>
 #include <semaphore.h>
 #include <assert.h>
@@ -52,11 +50,6 @@
 #endif
 #include <stdint.h>
 #define PAGE_SIZE 4096
-#define __MAX_THREADS__ 256
-
-pthread_t __tid__[__MAX_THREADS__];
-unsigned __threads__=0;
-pthread_mutex_t __intern__;
 
 
 #define DEFAULT_N      258
@@ -83,8 +76,6 @@ pthread_mutex_t __intern__;
 
 struct multi_struct *multi;
 struct global_struct *global;
-struct locks_struct *locks;
-struct bars_struct *bars;
 
 double ****psi;
 double ****psim;
@@ -219,7 +210,6 @@ int main(int argc, char *argv[])
      }
    }
 
-   {__tid__[__threads__++]=pthread_self();}
 
    jm = im;
    printf("\n");
@@ -425,117 +415,6 @@ int main(int argc, char *argv[])
    q_multi = (double ****) malloc(d_size);;
    rhs_multi = (double ****) malloc(d_size);;
 
-   locks = (struct locks_struct *) malloc(sizeof(struct locks_struct));;
-   bars = (struct bars_struct *) malloc(sizeof(struct bars_struct));;
-
-   {pthread_mutex_init(&(locks->idlock),NULL);}
-   {pthread_mutex_init(&(locks->psiailock),NULL);}
-   {pthread_mutex_init(&(locks->psibilock),NULL);}
-   {pthread_mutex_init(&(locks->donelock),NULL);}
-   {pthread_mutex_init(&(locks->error_lock),NULL);}
-   {pthread_mutex_init(&(locks->bar_lock),NULL);}
-
-   {
-	pthread_mutex_init(&((bars->iteration).bar_mutex), NULL);
-	pthread_cond_init(&((bars->iteration).bar_cond), NULL);
-	(bars->iteration).bar_teller=0;
-}
-   {
-	pthread_mutex_init(&((bars->gsudn).bar_mutex), NULL);
-	pthread_cond_init(&((bars->gsudn).bar_cond), NULL);
-	(bars->gsudn).bar_teller=0;
-}
-   {
-	pthread_mutex_init(&((bars->p_setup).bar_mutex), NULL);
-	pthread_cond_init(&((bars->p_setup).bar_cond), NULL);
-	(bars->p_setup).bar_teller=0;
-}
-   {
-	pthread_mutex_init(&((bars->p_redph).bar_mutex), NULL);
-	pthread_cond_init(&((bars->p_redph).bar_cond), NULL);
-	(bars->p_redph).bar_teller=0;
-}
-   {
-	pthread_mutex_init(&((bars->p_soln).bar_mutex), NULL);
-	pthread_cond_init(&((bars->p_soln).bar_cond), NULL);
-	(bars->p_soln).bar_teller=0;
-}
-   {
-	pthread_mutex_init(&((bars->p_subph).bar_mutex), NULL);
-	pthread_cond_init(&((bars->p_subph).bar_cond), NULL);
-	(bars->p_subph).bar_teller=0;
-}
-   {
-	pthread_mutex_init(&((bars->sl_prini).bar_mutex), NULL);
-	pthread_cond_init(&((bars->sl_prini).bar_cond), NULL);
-	(bars->sl_prini).bar_teller=0;
-}
-   {
-	pthread_mutex_init(&((bars->sl_psini).bar_mutex), NULL);
-	pthread_cond_init(&((bars->sl_psini).bar_cond), NULL);
-	(bars->sl_psini).bar_teller=0;
-}
-   {
-	pthread_mutex_init(&((bars->sl_onetime).bar_mutex), NULL);
-	pthread_cond_init(&((bars->sl_onetime).bar_cond), NULL);
-	(bars->sl_onetime).bar_teller=0;
-}
-   {
-	pthread_mutex_init(&((bars->sl_phase_1).bar_mutex), NULL);
-	pthread_cond_init(&((bars->sl_phase_1).bar_cond), NULL);
-	(bars->sl_phase_1).bar_teller=0;
-}
-   {
-	pthread_mutex_init(&((bars->sl_phase_2).bar_mutex), NULL);
-	pthread_cond_init(&((bars->sl_phase_2).bar_cond), NULL);
-	(bars->sl_phase_2).bar_teller=0;
-}
-   {
-	pthread_mutex_init(&((bars->sl_phase_3).bar_mutex), NULL);
-	pthread_cond_init(&((bars->sl_phase_3).bar_cond), NULL);
-	(bars->sl_phase_3).bar_teller=0;
-}
-   {
-	pthread_mutex_init(&((bars->sl_phase_4).bar_mutex), NULL);
-	pthread_cond_init(&((bars->sl_phase_4).bar_cond), NULL);
-	(bars->sl_phase_4).bar_teller=0;
-}
-   {
-	pthread_mutex_init(&((bars->sl_phase_5).bar_mutex), NULL);
-	pthread_cond_init(&((bars->sl_phase_5).bar_cond), NULL);
-	(bars->sl_phase_5).bar_teller=0;
-}
-   {
-	pthread_mutex_init(&((bars->sl_phase_6).bar_mutex), NULL);
-	pthread_cond_init(&((bars->sl_phase_6).bar_cond), NULL);
-	(bars->sl_phase_6).bar_teller=0;
-}
-   {
-	pthread_mutex_init(&((bars->sl_phase_7).bar_mutex), NULL);
-	pthread_cond_init(&((bars->sl_phase_7).bar_cond), NULL);
-	(bars->sl_phase_7).bar_teller=0;
-}
-   {
-	pthread_mutex_init(&((bars->sl_phase_8).bar_mutex), NULL);
-	pthread_cond_init(&((bars->sl_phase_8).bar_cond), NULL);
-	(bars->sl_phase_8).bar_teller=0;
-}
-   {
-	pthread_mutex_init(&((bars->sl_phase_9).bar_mutex), NULL);
-	pthread_cond_init(&((bars->sl_phase_9).bar_cond), NULL);
-	(bars->sl_phase_9).bar_teller=0;
-}
-   {
-	pthread_mutex_init(&((bars->sl_phase_10).bar_mutex), NULL);
-	pthread_cond_init(&((bars->sl_phase_10).bar_cond), NULL);
-	(bars->sl_phase_10).bar_teller=0;
-}
-   {
-	pthread_mutex_init(&((bars->error_barrier).bar_mutex), NULL);
-	pthread_cond_init(&((bars->error_barrier).bar_cond), NULL);
-	(bars->error_barrier).bar_teller=0;
-}
-
    link_all();
 
    multi->err_multi = 0.0;
@@ -570,25 +449,10 @@ int main(int argc, char *argv[])
      printf("                       MULTIGRID OUTPUTS\n");
    }
 
-   ;
-   {
-	long	i, Error;
-
-	assert(__threads__<__MAX_THREADS__);
-	pthread_mutex_lock(&__intern__);
-	for (i = 0; i < (nprocs) - 1; i++) {
-		Error = pthread_create(&__tid__[__threads__++], NULL, (void * (*)(void *))(slave), NULL);
-		if (Error != 0) {
-			printf("Error in pthread_create().\n");
-			exit(-1);
-		}
-	}
-	pthread_mutex_unlock(&__intern__);
+   
 
 	slave();
-};
-   {int aantal=nprocs; while (aantal--) pthread_join(__tid__[aantal], NULL);};
-   ;
+   
    {long time(); (computeend) = time(0);}
 
    printf("\n");
@@ -646,7 +510,6 @@ int main(int argc, char *argv[])
    printf("    (excludes first timestep)\n");
    printf("\n");
 
-   {exit(0);}
 }
 
 long log_2(long number)

@@ -178,7 +178,7 @@ CreateDistribution (cluster_type cluster, model_type model)
 void
 CreateParticleList (long my_id, long length)
 {
-   {pthread_mutex_lock(&(G_Memory->mal_lock));};
+
    Local[my_id].Particles = (particle **) malloc(length
 						   * sizeof(particle *));;
 
@@ -199,7 +199,7 @@ CreateParticleList (long my_id, long length)
 
 */
 
-   {pthread_mutex_unlock(&(G_Memory->mal_lock));};
+
    Local[my_id].Max_Particles = length;
    Local[my_id].Num_Particles = 0;
 }

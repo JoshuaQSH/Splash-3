@@ -21,8 +21,6 @@
       ****************  */
 
 
-
-#include <pthread.h>
 #include <stdlib.h>
 #include <semaphore.h>
 #include <assert.h>
@@ -31,11 +29,7 @@
 #endif
 #include <stdint.h>
 #define PAGE_SIZE 4096
-#define __MAX_THREADS__ 256
 
-extern pthread_t __tid__[__MAX_THREADS__];
-extern unsigned __threads__;
-extern pthread_mutex_t __intern__;
 
 
 #include <stdio.h>
@@ -93,21 +87,10 @@ void slave()
 
    ressqr = lev_res[numlev-1] * lev_res[numlev-1];
 
-   {pthread_mutex_lock(&(locks->idlock));}
      procid = global->id;
      global->id = global->id+1;
-   {pthread_mutex_unlock(&(locks->idlock));} 
 
-   {
-pthread_mutex_lock(&((bars->sl_prini).bar_mutex));
-(bars->sl_prini).bar_teller++;
-if ((bars->sl_prini).bar_teller == (nprocs)) {
-	(bars->sl_prini).bar_teller = 0;
-	pthread_cond_broadcast(&((bars->sl_prini).bar_cond));
-} else {
-	pthread_cond_wait(&((bars->sl_prini).bar_cond), &((bars->sl_prini).bar_mutex));
-}
-pthread_mutex_unlock(&((bars->sl_prini).bar_mutex));}
+
 
 
 /* POSSIBLE ENHANCEMENT:  Here is where one might pin processes to
@@ -360,16 +343,6 @@ eof(double) +
 
 /* wait until all processes have completed the above initialization  */
 
-   {
-pthread_mutex_lock(&((bars->sl_prini).bar_mutex));
-(bars->sl_prini).bar_teller++;
-if ((bars->sl_prini).bar_teller == (nprocs)) {
-	(bars->sl_prini).bar_teller = 0;
-	pthread_cond_broadcast(&((bars->sl_prini).bar_cond));
-} else {
-	pthread_cond_wait(&((bars->sl_prini).bar_cond), &((bars->sl_prini).bar_mutex));
-}
-pthread_mutex_unlock(&((bars->sl_prini).bar_mutex));}
 
 
 /* compute psib array (one-time computation) and integrate into psibi */
@@ -431,16 +404,6 @@ pthread_mutex_unlock(&((bars->sl_prini).bar_mutex));}
      }
    }
    
-   {
-pthread_mutex_lock(&((bars->sl_psini).bar_mutex));
-(bars->sl_psini).bar_teller++;
-if ((bars->sl_psini).bar_teller == (nprocs)) {
-	(bars->sl_psini).bar_teller = 0;
-	pthread_cond_broadcast(&((bars->sl_psini).bar_cond));
-} else {
-	pthread_cond_wait(&((bars->sl_psini).bar_cond), &((bars->sl_psini).bar_mutex));
-}
-pthread_mutex_unlock(&((bars->sl_psini).bar_mutex));}
  
 
    t2a = (double **) psib[procid];
@@ -499,17 +462,6 @@ pthread_mutex_unlock(&((bars->sl_psini).bar_mutex));}
      }
    }
 
-   {
-pthread_mutex_lock(&((bars->sl_prini).bar_mutex));
-(bars->sl_prini).bar_teller++;
-if ((bars->sl_prini).bar_teller == (nprocs)) {
-	(bars->sl_prini).bar_teller = 0;
-	pthread_cond_broadcast(&((bars->sl_prini).bar_cond));
-} else {
-	pthread_cond_wait(&((bars->sl_prini).bar_cond), &((bars->sl_prini).bar_mutex));
-}
-pthread_mutex_unlock(&((bars->sl_prini).bar_mutex));}
-
 
 /* update the local running sum psibipriv by summing all the resulting
    values in that process's share of the psib matrix   */
@@ -562,9 +514,8 @@ pthread_mutex_unlock(&((bars->sl_prini).bar_mutex));}
    private and shared sum method avoids accessing the shared
    variable psibi once for every element of the matrix.  */
 
-   {pthread_mutex_lock(&(locks->psibilock));}
      global->psibi = global->psibi + psibipriv;
-   {pthread_mutex_unlock(&(locks->psibilock));}
+
 
 /* initialize psim matrices
 
@@ -723,17 +674,6 @@ pthread_mutex_unlock(&((bars->sl_prini).bar_mutex));}
        t1a[iindex] = curlt;
      }
    }
-
-   {
-pthread_mutex_lock(&((bars->sl_onetime).bar_mutex));
-(bars->sl_onetime).bar_teller++;
-if ((bars->sl_onetime).bar_teller == (nprocs)) {
-	(bars->sl_onetime).bar_teller = 0;
-	pthread_cond_broadcast(&((bars->sl_onetime).bar_cond));
-} else {
-	pthread_cond_wait(&((bars->sl_onetime).bar_cond), &((bars->sl_onetime).bar_mutex));
-}
-pthread_mutex_unlock(&((bars->sl_onetime).bar_mutex));}
 
 
 /***************************************************************

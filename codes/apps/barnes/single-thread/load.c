@@ -18,7 +18,6 @@
 
 
 
-#include <pthread.h>
 #include <stdlib.h>
 #include <semaphore.h>
 #include <assert.h>
@@ -27,11 +26,6 @@
 #endif
 #include <stdint.h>
 #define PAGE_SIZE 4096
-#define __MAX_THREADS__ 256
-
-extern pthread_t __tid__[__MAX_THREADS__];
-extern unsigned __threads__;
-extern pthread_mutex_t __intern__;
 
 #define global extern
 
@@ -59,36 +53,8 @@ void maketree(long ProcessId)
 	    = (nodeptr) loadtree(p, (cellptr) Local[ProcessId].Current_Root,
 				 ProcessId);
       }
-      else {
-	 {pthread_mutex_lock(&(Global->io_lock));};
-	 fprintf(stderr, "Process %ld found body %ld to have zero mass\n",
-		 ProcessId, (long) p);
-	 {pthread_mutex_unlock(&(Global->io_lock));};
-      }
    }
-   {
-pthread_mutex_lock(&((Global->Bartree).bar_mutex));
-(Global->Bartree).bar_teller++;
-if ((Global->Bartree).bar_teller == (NPROC)) {
-	(Global->Bartree).bar_teller = 0;
-	pthread_cond_broadcast(&((Global->Bartree).bar_cond));
-} else {
-	pthread_cond_wait(&((Global->Bartree).bar_cond), &((Global->Bartree).bar_mutex));
-}
-pthread_mutex_unlock(&((Global->Bartree).bar_mutex));}
-;
    hackcofm(ProcessId );
-   {
-pthread_mutex_lock(&((Global->Barcom).bar_mutex));
-(Global->Barcom).bar_teller++;
-if ((Global->Barcom).bar_teller == (NPROC)) {
-	(Global->Barcom).bar_teller = 0;
-	pthread_cond_broadcast(&((Global->Barcom).bar_cond));
-} else {
-	pthread_cond_wait(&((Global->Barcom).bar_cond), &((Global->Barcom).bar_mutex));
-}
-pthread_mutex_unlock(&((Global->Barcom).bar_mutex));}
-;
 }
 
 cellptr InitCell(cellptr parent, long ProcessId)
@@ -251,8 +217,7 @@ nodeptr loadtree(bodyptr p, cellptr root, long ProcessId)
       if (l == 0) {
 	 error("not enough levels in tree\n");
       }
-	 /* lock the parent cell */
-	 {pthread_mutex_lock(&((CellLock->CL)[(((cellptr) mynode)->seqnum % MAXLOCK)]));};
+
 	 if (*qptr == NULL) {
 	    le = InitLeaf((cellptr) mynode, ProcessId);
 	    Parent(p) = (nodeptr) le;
@@ -264,11 +229,9 @@ nodeptr loadtree(bodyptr p, cellptr root, long ProcessId)
 	    flag = FALSE;
 			parent = Parent((leafptr) *qptr);
 	 }
-	 {pthread_mutex_unlock(&((CellLock->CL)[(((cellptr) mynode)->seqnum % MAXLOCK)]));};
-	 /* unlock the parent cell */
+
 		if (flag) {
-	 /*   reached a "leaf"?      */
-	 {pthread_mutex_lock(&((CellLock->CL)[(((cellptr) mynode)->seqnum % MAXLOCK)]));};
+	 
 	 /* lock the parent cell */
 			if (*qptr && Type(*qptr) == LEAF) {             /* still a "leaf"?      */
 	    le = (leafptr) *qptr;
@@ -286,9 +249,8 @@ nodeptr loadtree(bodyptr p, cellptr root, long ProcessId)
 					parent = Parent((leafptr) *qptr);
 	    }
 	 }
-	 {pthread_mutex_unlock(&((CellLock->CL)[(((cellptr) mynode)->seqnum % MAXLOCK)]));};
-	 /* unlock the node           */
       }
+
       if (flag) {
 	 mynode = *qptr;
          kidIndex = subindex(xp, l);
@@ -403,10 +365,8 @@ void hackcofm(long ProcessId)
 	 ADDM(Quad(l), Quad(l), tmpm);
       }
 #endif
-		{pthread_mutex_lock(&((CellLock->CL)[(((cellptr) l)->seqnum % MAXLOCK)]));};
       Done(l)=TRUE;
-		{ pthread_cond_broadcast(&(Done_cv(l))); };
-		{pthread_mutex_unlock(&((CellLock->CL)[(((cellptr) l)->seqnum % MAXLOCK)]));};
+
    }
    for (cc = Local[ProcessId].mycelltab+Local[ProcessId].myncell-1;
 	cc >= Local[ProcessId].mycelltab; cc--) {
@@ -417,18 +377,11 @@ void hackcofm(long ProcessId)
       for (i = 0; i < NSUB; i++) {
 	 r = Subp(q)[i];
 	 if (r != NULL) {
-				{pthread_mutex_lock(&((CellLock->CL)[(((cellptr) r)->seqnum % MAXLOCK)]));};
-				while(!Done(r))
-					{ pthread_cond_wait(&(Done_cv(r)), &(CellLock->CL[((cellptr) r)->seqnum % MAXLOCK])); };
-				{pthread_mutex_unlock(&((CellLock->CL)[(((cellptr) r)->seqnum % MAXLOCK)]));};
-	       /* wait */
 	    Mass(q) += Mass(r);
 	    Cost(q) += Cost(r);
 	    MULVS(tmpv, Pos(r), Mass(r));
 	    ADDV(Pos(q), Pos(q), tmpv);
-				{pthread_mutex_lock(&((CellLock->CL)[(((cellptr) r)->seqnum % MAXLOCK)]));};
 	    Done(r) = FALSE;
-				{pthread_mutex_unlock(&((CellLock->CL)[(((cellptr) r)->seqnum % MAXLOCK)]));};
 	 }
       }
       DIVVS(Pos(q), Pos(q), Mass(q));
@@ -450,10 +403,7 @@ void hackcofm(long ProcessId)
 	 }
       }
 #endif
-		{pthread_mutex_lock(&((CellLock->CL)[(((cellptr) q)->seqnum % MAXLOCK)]));};
       Done(q)=TRUE;
-		{ pthread_cond_broadcast(&(Done_cv(q))); };
-		{pthread_mutex_unlock(&((CellLock->CL)[(((cellptr) q)->seqnum % MAXLOCK)]));};
    }
 }
 
@@ -529,7 +479,7 @@ cellptr makecell(long ProcessId)
    c->seqnum = ProcessId*maxmycell+Mycell;
    Type(c) = CELL;
    Done(c) = FALSE;
-   pthread_cond_init(&(Done_cv(c)), NULL);;
+
    Mass(c) = 0.0;
    for (i = 0; i < NSUB; i++) {
       Subp(c)[i] = NULL;
@@ -556,7 +506,7 @@ leafptr makeleaf(long ProcessId)
    le->seqnum = ProcessId * maxmyleaf + Myleaf;
    Type(le) = LEAF;
    Done(le) = FALSE;
-   pthread_cond_init(&(Done_cv(le)), NULL);;
+
    Mass(le) = 0.0;
    le->num_bodies = 0;
    for (i = 0; i < MAX_BODIES_PER_LEAF; i++) {

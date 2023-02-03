@@ -121,7 +121,7 @@ typedef struct _cell {
 #ifdef QUADPOLE
    matrix quad;                /* quad. moment of cell */
 #endif
-   pthread_cond_t done_cv;;
+
    long done;    /* flag to tell when the c.of.m is ready */
    nodeptr subp[NSUB];         /* descendents of cell */
 } cell;
@@ -148,7 +148,7 @@ typedef struct _leaf {
 #ifdef QUADPOLE
    matrix quad;                /* quad. moment of leaf */
 #endif
-   pthread_cond_t done_cv;;
+
    long done;    /* flag to tell when the c.of.m is ready */
    long num_bodies;
    bodyptr bodyp[MAX_BODIES_PER_LEAF];         /* bodies of leaf */
@@ -160,7 +160,6 @@ typedef struct _leaf {
 #define Quad(x) (((cellptr) (x))->quad)
 #endif
 #define Done(x) (((cellptr) (x))->done)
-#define Done_cv(x) (((cellptr) (x))->done_cv)
 
 /*
  * Integerized coordinates: used to mantain body-tree.

@@ -35,8 +35,6 @@ void
 CreateBoxes (long my_id, long num_boxes)
 {
    long i;
-
-   {pthread_mutex_lock(&(G_Memory->mal_lock));};
    Local[my_id].B_Heap = (box *) malloc(num_boxes * sizeof(box));;
 
 /* POSSIBLE ENHANCEMENT:  Here is where one might distribute the
@@ -56,7 +54,7 @@ CreateBoxes (long my_id, long num_boxes)
 
 */
 
-   {pthread_mutex_unlock(&(G_Memory->mal_lock));};
+
    Local[my_id].Max_B_Heap = num_boxes;
    Local[my_id].Index_B_Heap = 0;
 
@@ -98,9 +96,7 @@ ZeroBox (long my_id, box *b)
    }
    b->num_children = 0;
    b->construct_synch = 0;
-   pthread_cond_init(&(b->construct_synch_cv), NULL);;
    b->interaction_synch = 0;
-   pthread_cond_init(&(b->interaction_synch_cv), NULL);;
    b->cost = 0;
    b->proc = my_id;
    b->subtree_cost = 0;
@@ -160,7 +156,6 @@ void
 PrintBox (long my_id, box *b)
 {
    (void)my_id;
-   {pthread_mutex_lock(&(G_Memory->io_lock));};
    fflush(stdout);
    if (b != NULL) {
       printf("Info for B%f :\n", b->id);
@@ -201,7 +196,7 @@ PrintBox (long my_id, box *b)
    }
    else
       printf("Box has not been initialized yet.\n\n");
-   {pthread_mutex_unlock(&(G_Memory->io_lock));};
+
 }
 
 

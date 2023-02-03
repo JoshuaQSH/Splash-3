@@ -81,16 +81,8 @@ ConstructGrid (long my_id, time_info *local_time, long time_all)
 				  communication between processors. */
    }
    {
-pthread_mutex_lock(&((G_Memory->synch).bar_mutex));
-(G_Memory->synch).bar_teller++;
-if ((G_Memory->synch).bar_teller == (Number_Of_Processors)) {
-	(G_Memory->synch).bar_teller = 0;
-	pthread_cond_broadcast(&((G_Memory->synch).bar_cond));
-} else {
-	pthread_cond_wait(&((G_Memory->synch).bar_cond), &((G_Memory->synch).bar_mutex));
-}
-pthread_mutex_unlock(&((G_Memory->synch).bar_mutex));}
-;
+
+
    CleanupGrid(my_id);
    if (time_all)
       {long time(); (finish) = time(0);};
@@ -110,17 +102,7 @@ ConstructLists (long my_id, time_info *local_time, long time_all)
    if (time_all)
       {long time(); (start) = time(0);};
    PartitionIterate(my_id, ConstructGridLists, TOP);
-   {
-pthread_mutex_lock(&((G_Memory->synch).bar_mutex));
-(G_Memory->synch).bar_teller++;
-if ((G_Memory->synch).bar_teller == (Number_Of_Processors)) {
-	(G_Memory->synch).bar_teller = 0;
-	pthread_cond_broadcast(&((G_Memory->synch).bar_cond));
-} else {
-	pthread_cond_wait(&((G_Memory->synch).bar_cond), &((G_Memory->synch).bar_mutex));
-}
-pthread_mutex_unlock(&((G_Memory->synch).bar_mutex));}
-;
+   
    PartitionIterate(my_id, ConstructInteractionLists, BOTTOM);
    if (time_all)
       {long time(); (finish) = time(0);};
@@ -186,44 +168,12 @@ PrintGrid (long my_id)
 	 printf("Boxes :\n\n");
       }
       fflush(stdout);
-      {
-pthread_mutex_lock(&((G_Memory->synch).bar_mutex));
-(G_Memory->synch).bar_teller++;
-if ((G_Memory->synch).bar_teller == (Number_Of_Processors)) {
-	(G_Memory->synch).bar_teller = 0;
-	pthread_cond_broadcast(&((G_Memory->synch).bar_cond));
-} else {
-	pthread_cond_wait(&((G_Memory->synch).bar_cond), &((G_Memory->synch).bar_mutex));
-}
-pthread_mutex_unlock(&((G_Memory->synch).bar_mutex));}
-;
-      PartitionIterate(my_id, PrintBox, TOP);
-      {
-pthread_mutex_lock(&((G_Memory->synch).bar_mutex));
-(G_Memory->synch).bar_teller++;
-if ((G_Memory->synch).bar_teller == (Number_Of_Processors)) {
-	(G_Memory->synch).bar_teller = 0;
-	pthread_cond_broadcast(&((G_Memory->synch).bar_cond));
-} else {
-	pthread_cond_wait(&((G_Memory->synch).bar_cond), &((G_Memory->synch).bar_mutex));
-}
-pthread_mutex_unlock(&((G_Memory->synch).bar_mutex));}
-;
+      
       if (my_id == 0) {
 	 printf("\n");
       }
       fflush(stdout);
-      {
-pthread_mutex_lock(&((G_Memory->synch).bar_mutex));
-(G_Memory->synch).bar_teller++;
-if ((G_Memory->synch).bar_teller == (Number_Of_Processors)) {
-	(G_Memory->synch).bar_teller = 0;
-	pthread_cond_broadcast(&((G_Memory->synch).bar_cond));
-} else {
-	pthread_cond_wait(&((G_Memory->synch).bar_cond), &((G_Memory->synch).bar_mutex));
-}
-pthread_mutex_unlock(&((G_Memory->synch).bar_mutex));}
-;
+      
    }
    else
       printf("Adaptive grid has not been initialized yet.\n");
@@ -317,17 +267,6 @@ MergeLocalGridSize (long my_id)
    my_f_array[1] = Local[my_id].Local_X_Min;
    my_f_array[2] = Local[my_id].Local_Y_Max;
    my_f_array[3] = Local[my_id].Local_Y_Min;
-   {
-pthread_mutex_lock(&((G_Memory->synch).bar_mutex));
-(G_Memory->synch).bar_teller++;
-if ((G_Memory->synch).bar_teller == (Number_Of_Processors)) {
-	(G_Memory->synch).bar_teller = 0;
-	pthread_cond_broadcast(&((G_Memory->synch).bar_cond));
-} else {
-	pthread_cond_wait(&((G_Memory->synch).bar_cond), &((G_Memory->synch).bar_mutex));
-}
-pthread_mutex_unlock(&((G_Memory->synch).bar_mutex));}
-;
 
    for (i = 0; i < Number_Of_Processors; i++) {
       their_f_array = G_Memory->f_array[i];
@@ -454,9 +393,7 @@ FindHome (long my_id, particle *p, box *current_home)
    pb = FindInitialRoot(p, current_home);
    while (pb->type == PARENT) {
      long lock_index = pb->particle_lock_index;
- #ifndef WITH_NO_OPTIONAL_LOCKS
-      {pthread_mutex_lock(&((G_Memory->lock_array)[(lock_index)]));};
- #endif // WITH_NO_OPTIONAL_LOCKS
+
       if (p->pos.y > pb->y_center) {
 	 if (p->pos.x > pb->x_center) {
 	    if (pb->children[0] == NULL)
@@ -481,9 +418,7 @@ FindHome (long my_id, particle *p, box *current_home)
 	    pb = pb->children[2];
 	 }
       }
- #ifndef WITH_NO_OPTIONAL_LOCKS
-      {pthread_mutex_unlock(&((G_Memory->lock_array)[(lock_index)]));};
- #endif // WITH_NO_OPTIONAL_LOCKS
+
    }
    return pb;
 }
@@ -567,9 +502,7 @@ SubdivideBox (long my_id, box *b)
    box *child;
    long i;
 
-#ifndef WITH_NO_OPTIONAL_LOCKS
-   {pthread_mutex_lock(&((G_Memory->lock_array)[(b->particle_lock_index)]));};
-#endif // WITH_NO_OPTIONAL_LOCKS
+
    for (i = 0; i < b->num_particles; i++) {
       p = b->particles[i];
       if (p->pos.y > b->y_center) {
@@ -601,9 +534,7 @@ SubdivideBox (long my_id, box *b)
    }
    b->num_particles = 0;
    b->type = PARENT;
-#ifndef WITH_NO_OPTIONAL_LOCKS
-   {pthread_mutex_unlock(&((G_Memory->lock_array)[(b->particle_lock_index)]));};
-#endif // WITH_NO_OPTIONAL_LOCKS
+
 }
 
 
@@ -632,20 +563,14 @@ MLGHelper (long my_id, box *local_box, box *global_box, box *global_parent)
 	    success = InsertBoxInGrid(my_id, local_box, global_parent);
 	 }
 	 else {
-		{pthread_mutex_lock(&((G_Memory->lock_array)[(global_box->particle_lock_index)]));};
         int gbt = global_box->type;
-		{pthread_mutex_unlock(&((G_Memory->lock_array)[(global_box->particle_lock_index)]));};
+
 	    if (gbt == PARENT) {
 	       success = TRUE;
 	       for (i = 0; i < NUM_OFFSPRING; i++) {
               if (local_box->children[i] != NULL) {
-#ifndef WITH_NO_OPTIONAL_LOCKS
-				 {pthread_mutex_lock(&((G_Memory->lock_array)[(global_box->particle_lock_index)]));};
-#endif // WITH_NO_OPTIONAL_LOCKS
+
                  box * gbc = global_box->children[i];
-#ifndef WITH_NO_OPTIONAL_LOCKS
-				 {pthread_mutex_unlock(&((G_Memory->lock_array)[(global_box->particle_lock_index)]));};
-#endif // WITH_NO_OPTIONAL_LOCKS
 				 box * lbc = local_box->children[i];
                  MLGHelper(my_id, lbc, gbc, global_box);
               }
@@ -667,9 +592,9 @@ MLGHelper (long my_id, box *local_box, box *global_box, box *global_parent)
 	    success = InsertBoxInGrid(my_id, local_box, global_parent);
 	 }
 	 else {
-		{pthread_mutex_lock(&((G_Memory->lock_array)[(global_box->particle_lock_index)]));};
+
         int gbt = global_box->type;
-		{pthread_mutex_unlock(&((G_Memory->lock_array)[(global_box->particle_lock_index)]));};
+
 	    if (gbt == PARENT) {
 	       MergeLocalParticles(my_id, local_box->particles,
 		                   local_box->num_particles, global_box);
@@ -689,15 +614,7 @@ MLGHelper (long my_id, box *local_box, box *global_box, box *global_parent)
       if (success == FALSE) {
 	 if (global_parent == NULL)
 	    global_box = Grid;
-	 else {
-#ifndef WITH_NO_OPTIONAL_LOCKS
-		{pthread_mutex_lock(&((G_Memory->lock_array)[(global_parent->particle_lock_index)]));};
-#endif // WITH_NO_OPTIONAL_LOCKS
-	    global_box = global_parent->children[local_box->child_num];
-#ifndef WITH_NO_OPTIONAL_LOCKS
-		{pthread_mutex_unlock(&((G_Memory->lock_array)[(global_parent->particle_lock_index)]));};
-#endif // WITH_NO_OPTIONAL_LOCKS
-     }
+	
       }
    }
 }
@@ -716,21 +633,15 @@ MergeLocalParticles (long my_id, particle **p_array, long num_of_particles, box 
 		  (particle **) p_dist, num_p_dist, pb);
    for (i= 0; i < NUM_OFFSPRING; i++) {
       if (num_p_dist[i] > 0) {
-#ifndef WITH_NO_OPTIONAL_LOCKS
-		 {pthread_mutex_lock(&((G_Memory->lock_array)[(pb->particle_lock_index)]));};
-#endif // WITH_NO_OPTIONAL_LOCKS
+
 	 child = pb->children[i];
-#ifndef WITH_NO_OPTIONAL_LOCKS
-		 {pthread_mutex_unlock(&((G_Memory->lock_array)[(pb->particle_lock_index)]));};
-#endif // WITH_NO_OPTIONAL_LOCKS
+
 	 if (child == NULL) {
 	    child = CreateLeaf(my_id, pb, i, p_dist[i], num_p_dist[i]);
 	    success = InsertBoxInGrid(my_id, child, pb);
 	 }
 	 else {
-		{pthread_mutex_lock(&((G_Memory->lock_array)[(child->particle_lock_index)]));};
         int ct = child->type;
-		{pthread_mutex_unlock(&((G_Memory->lock_array)[(child->particle_lock_index)]));};
 	    if (ct == PARENT) {
 	       MergeLocalParticles(my_id, p_dist[i], num_p_dist[i], child);
 	       success = TRUE;
@@ -746,13 +657,7 @@ MergeLocalParticles (long my_id, particle **p_array, long num_of_particles, box 
 	    }
 	 }
 	 if (success == FALSE) {
-#ifndef WITH_NO_OPTIONAL_LOCKS
-		{pthread_mutex_lock(&((G_Memory->lock_array)[(pb->particle_lock_index)]));};
-#endif // WITH_NO_OPTIONAL_LOCKS
         box * pbc = pb->children[child->child_num];
-#ifndef WITH_NO_OPTIONAL_LOCKS
-		{pthread_mutex_unlock(&((G_Memory->lock_array)[(pb->particle_lock_index)]));};
-#endif // WITH_NO_OPTIONAL_LOCKS
         MLGHelper(my_id, child, pbc, pb);
 	 }
       }
@@ -855,17 +760,17 @@ InsertBoxInGrid (long my_id, box *b, box *pb)
    long success;
 
    if (pb == NULL) {
-      {pthread_mutex_lock(&(G_Memory->single_lock));};
+
       if (Grid == NULL) {
 	 Grid = b;
 	 success = TRUE;
       }
       else
 	 success = FALSE;
-      {pthread_mutex_unlock(&(G_Memory->single_lock));};
+
    }
    else {
-      {pthread_mutex_lock(&((G_Memory->lock_array)[(pb->particle_lock_index)]));};
+
       if (pb->children[b->child_num] == NULL) {
 	 pb->children[b->child_num] = b;
 	 pb->num_children += 1;
@@ -874,7 +779,7 @@ InsertBoxInGrid (long my_id, box *b, box *pb)
       }
       else
 	 success = FALSE;
-      {pthread_mutex_unlock(&((G_Memory->lock_array)[(pb->particle_lock_index)]));};
+
    }
    if (success == TRUE)
       InsertSubtreeInPartition(my_id, b);
@@ -888,19 +793,17 @@ RemoveBoxFromGrid (box *b, box *pb)
    long success;
 
    if (pb == NULL) {
-      {pthread_mutex_lock(&(G_Memory->single_lock));};
+ 
       if (Grid == b) {
 	 Grid = NULL;
 	 success = TRUE;
       }
       else
 	 success = FALSE;
-      {pthread_mutex_unlock(&(G_Memory->single_lock));};
+
    }
    else {
-#ifndef WITH_NO_OPTIONAL_LOCKS
-      {pthread_mutex_lock(&((G_Memory->lock_array)[(pb->particle_lock_index)]));};
-#endif // WITH_NO_OPTIONAL_LOCKS
+
       if (pb->children[b->child_num] == b) {
 	 pb->children[b->child_num] = NULL;
 	 b->parent = NULL;
@@ -909,9 +812,7 @@ RemoveBoxFromGrid (box *b, box *pb)
       }
       else
 	 success = FALSE;
-#ifndef WITH_NO_OPTIONAL_LOCKS
-      {pthread_mutex_unlock(&((G_Memory->lock_array)[(pb->particle_lock_index)]));};
-#endif // WITH_NO_OPTIONAL_LOCKS
+
    }
    return success;
 }
@@ -926,18 +827,14 @@ InsertSubtreeInPartition (long my_id, box *b)
    if (b->proc == my_id) {
       InsertBoxInPartition(my_id, b);
    }
-   {pthread_mutex_lock(&((G_Memory->lock_array)[(b->particle_lock_index)]));};
+
    box_type b_type = b->type;
-   {pthread_mutex_unlock(&((G_Memory->lock_array)[(b->particle_lock_index)]));};
+
    if (b_type == PARENT) {
       for (i = 0; i < NUM_OFFSPRING; i++) {
-#ifndef WITH_NO_OPTIONAL_LOCKS
-		 {pthread_mutex_lock(&((G_Memory->lock_array)[(b->particle_lock_index)]));};
-#endif // WITH_NO_OPTIONAL_LOCKS
+
 	 child = b->children[i];
-#ifndef WITH_NO_OPTIONAL_LOCKS
-		 {pthread_mutex_unlock(&((G_Memory->lock_array)[(b->particle_lock_index)]));};
-#endif // WITH_NO_OPTIONAL_LOCKS
+
 	 if (child == NULL)
 	    child = b->shadow[i];
 	 if (child != NULL)
@@ -1013,11 +910,11 @@ SetColleagues (long my_id, box *b)
    if (pb != NULL) {
       for (i = 0; i < b->num_siblings; i++)
 	 b->colleagues[b->num_colleagues++] = b->siblings[i];
-      {pthread_mutex_lock(&((G_Memory->lock_array)[(b->exp_lock_index)]));};
+ 
 	  while(b->construct_synch == 0)
-		  { pthread_cond_wait(&(b->construct_synch_cv), &(((G_Memory->lock_array)[b->exp_lock_index]))); };
+
       b->construct_synch = 0;
-      {pthread_mutex_unlock(&((G_Memory->lock_array)[(b->exp_lock_index)]));};
+
       for (i = 0; i < pb->num_colleagues; i++) {
 	 cb = pb->colleagues[i];
 	 for (j = 0; j < NUM_OFFSPRING; j++) {
@@ -1032,10 +929,8 @@ SetColleagues (long my_id, box *b)
    if (b->type == PARENT) {
       for (i = 0; i < NUM_OFFSPRING; i++) {
 	 if (b->children[i] != NULL) {
-          {pthread_mutex_lock(&((G_Memory->lock_array)[(b->children[i]->exp_lock_index)]));};
+
 	    b->children[i]->construct_synch = 1;
-          { pthread_cond_signal(&(b->children[i]->construct_synch_cv)); };
-          {pthread_mutex_unlock(&((G_Memory->lock_array)[(b->children[i]->exp_lock_index)]));};
 	 }
       }
    }

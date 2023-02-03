@@ -22,7 +22,6 @@
 
 
 
-#include <pthread.h>
 #include <stdlib.h>
 #include <semaphore.h>
 #include <assert.h>
@@ -31,11 +30,6 @@
 #endif
 #include <stdint.h>
 #define PAGE_SIZE 4096
-#define __MAX_THREADS__ 256
-
-extern pthread_t __tid__[__MAX_THREADS__];
-extern unsigned __threads__;
-extern pthread_mutex_t __intern__;
 
 #define global extern
 
@@ -76,13 +70,8 @@ void gravsub(register nodeptr p, long ProcessId)
     vector ai;
 
     if (p != Local[ProcessId].pmem) {
-#ifndef WITH_NO_OPTIONAL_LOCKS
-		{pthread_mutex_lock(&((CellLock->CL)[(((bodyptr) p)->parent->seqnum % MAXLOCK)]));};
-#endif // WITH_NO_OPTIONAL_LOCKS
+
         SUBV(Local[ProcessId].dr, Pos(p), Local[ProcessId].pos0);
-#ifndef WITH_NO_OPTIONAL_LOCKS
-		{pthread_mutex_unlock(&((CellLock->CL)[(((bodyptr) p)->parent->seqnum % MAXLOCK)]));};
-#endif // WITH_NO_OPTIONAL_LOCKS
         DOTVP(Local[ProcessId].drsq, Local[ProcessId].dr, Local[ProcessId].dr);
     }
 

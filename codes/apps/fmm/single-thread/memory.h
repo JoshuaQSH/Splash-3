@@ -19,7 +19,6 @@
 #ifndef _Memory_H
 #define _Memory_H 1
 
-#include <pthread.h>
 #include "defs.h"
 #include "particle.h"
 #include "box.h"
@@ -28,7 +27,6 @@
 
 
 
-#include <pthread.h>
 #include <stdlib.h>
 #include <semaphore.h>
 #include <assert.h>
@@ -37,24 +35,14 @@
 #endif
 #include <stdint.h>
 #define PAGE_SIZE 4096
-#define __MAX_THREADS__ 256
 
-extern pthread_t __tid__[__MAX_THREADS__];
-extern unsigned __threads__;
-extern pthread_mutex_t __intern__;
 
 
 typedef struct _G_Mem g_mem;
 
 struct _G_Mem
 {
-   pthread_mutex_t io_lock;
-   pthread_mutex_t mal_lock;
-   pthread_mutex_t single_lock;
-   pthread_mutex_t count_lock;
    long count;
-   pthread_mutex_t (lock_array)[MAX_LOCKS];
-   struct { pthread_mutex_t bar_mutex; pthread_cond_t bar_cond; unsigned bar_teller; } synch;
    real f_array[MAX_PROCS][NUM_DIM_POW_2];
    real max_x;
    real min_x;

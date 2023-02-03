@@ -96,24 +96,9 @@ UpwardPass (long my_id, box *b)
    InitExp(b);
    if (b->type == CHILDLESS) {
       ComputeMPExp(b);
-      {pthread_mutex_lock(&((G_Memory->lock_array)[(b->exp_lock_index)]));};
       b->interaction_synch = 1;
-      { pthread_cond_broadcast(&(b->interaction_synch_cv)); };
-      {pthread_mutex_unlock(&((G_Memory->lock_array)[(b->exp_lock_index)]));};
    }
-   else {
-     {pthread_mutex_lock(&((G_Memory->lock_array)[(b->exp_lock_index)]));};
-	 while(b->interaction_synch != b->num_children)
-		 { pthread_cond_wait(&(b->interaction_synch_cv), &(((G_Memory->lock_array)[b->exp_lock_index]))); };
-     {pthread_mutex_unlock(&((G_Memory->lock_array)[(b->exp_lock_index)]));};
-   }
-   if (b->parent != NULL) {
-      ShiftMPExp(b, b->parent);
-      {pthread_mutex_lock(&((G_Memory->lock_array)[(b->parent->exp_lock_index)]));};
-      b->parent->interaction_synch += 1;
-      { pthread_cond_broadcast(&(b->parent->interaction_synch_cv)); };
-      {pthread_mutex_unlock(&((G_Memory->lock_array)[(b->parent->exp_lock_index)]));};
-   }
+   
 }
 
 
@@ -134,24 +119,17 @@ void
 DownwardPass (long my_id, box *b)
 {
    if (b->parent != NULL) {
-     {pthread_mutex_lock(&((G_Memory->lock_array)[(b->parent->exp_lock_index)]));};
 	 while(b->parent->interaction_synch != 0)
-		 { pthread_cond_wait(&(b->parent->interaction_synch_cv), &(((G_Memory->lock_array)[b->parent->exp_lock_index]))); };
-     {pthread_mutex_unlock(&((G_Memory->lock_array)[(b->parent->exp_lock_index)]));};
       ShiftLocalExp(b->parent, b);
    }
    if (b->type == CHILDLESS) {
       EvaluateLocalExp(b);
-      {pthread_mutex_lock(&((G_Memory->lock_array)[(b->exp_lock_index)]));};
+
       b->interaction_synch = 0;
-      { pthread_cond_broadcast(&(b->interaction_synch_cv)); };
-      {pthread_mutex_unlock(&((G_Memory->lock_array)[(b->exp_lock_index)]));};
+
    }
    else {
-      {pthread_mutex_lock(&((G_Memory->lock_array)[(b->exp_lock_index)]));};
       b->interaction_synch = 0;
-      { pthread_cond_broadcast(&(b->interaction_synch_cv)); };
-      {pthread_mutex_unlock(&((G_Memory->lock_array)[(b->exp_lock_index)]));};
    }
 }
 
@@ -194,9 +172,6 @@ InitExp (box *b)
 {
    long i;
 
-#ifndef WITH_NO_OPTIONAL_LOCKS
-   {pthread_mutex_lock(&((G_Memory->lock_array)[(b->exp_lock_index)]));};
-#endif // WITH_NO_OPTIONAL_LOCKS
    for (i = 0; i < Expansion_Terms; i++) {
       b->mp_expansion[i].r = 0.0;
       b->mp_expansion[i].i = 0.0;
@@ -205,9 +180,7 @@ InitExp (box *b)
       b->x_expansion[i].r = 0.0;
       b->x_expansion[i].i = 0.0;
    }
-#ifndef WITH_NO_OPTIONAL_LOCKS
-   {pthread_mutex_unlock(&((G_Memory->lock_array)[(b->exp_lock_index)]));};
-#endif // WITH_NO_OPTIONAL_LOCKS
+
 }
 
 
@@ -263,12 +236,10 @@ ComputeMPExp (box *b)
 	 COMPLEX_MUL(z0_pow_n, z0_pow_n, z0);
       }
    }
-   {pthread_mutex_lock(&((G_Memory->lock_array)[(b->exp_lock_index)]));};
    for (i = 0; i < Expansion_Terms; i++) {
       b->mp_expansion[i].r = result_exp[i].r;
       b->mp_expansion[i].i = result_exp[i].i;
    }
-   {pthread_mutex_unlock(&((G_Memory->lock_array)[(b->exp_lock_index)]));};
 }
 
 
@@ -317,11 +288,10 @@ ShiftMPExp (box *cb, box *pb)
       COMPLEX_MUL(z0_pow_n, z0_pow_n, z0);
       COMPLEX_MUL(result_exp[i], temp, z0_pow_n);
    }
-   {pthread_mutex_lock(&((G_Memory->lock_array)[(pb->exp_lock_index)]));};
    for (i = 0; i < Expansion_Terms; i++) {
       COMPLEX_ADD((pb->mp_expansion[i]), (pb->mp_expansion[i]), result_exp[i]);
    }
-   {pthread_mutex_unlock(&((G_Memory->lock_array)[(pb->exp_lock_index)]));};
+
 }
 
 
@@ -380,18 +350,6 @@ VListInteraction (long my_id, box *source_box, box *dest_box)
    long i;
    long j;
 
-   if (source_box->type == CHILDLESS) {
-     {pthread_mutex_lock(&((G_Memory->lock_array)[(source_box->exp_lock_index)]));};
-	 while(source_box->interaction_synch != 1)
-		 { pthread_cond_wait(&(source_box->interaction_synch_cv), &(((G_Memory->lock_array)[source_box->exp_lock_index]))); };
-     {pthread_mutex_unlock(&((G_Memory->lock_array)[(source_box->exp_lock_index)]));};
-   }
-   else {
-     {pthread_mutex_lock(&((G_Memory->lock_array)[(source_box->exp_lock_index)]));};
-	 while(source_box->interaction_synch != source_box->num_children)
-		 { pthread_cond_wait(&(source_box->interaction_synch_cv), &(((G_Memory->lock_array)[source_box->exp_lock_index]))); };
-     {pthread_mutex_unlock(&((G_Memory->lock_array)[(source_box->exp_lock_index)]));};
-   }
 
    source_pos.r = source_box->x_center;
    source_pos.i = source_box->y_center;
@@ -461,18 +419,6 @@ WListInteraction (box *source_box, box *dest_box)
    long i;
    long j;
 
-   if (source_box->type == CHILDLESS) {
-     {pthread_mutex_lock(&((G_Memory->lock_array)[(source_box->exp_lock_index)]));};
-	 while(source_box->interaction_synch != 1)
-		 { pthread_cond_wait(&(source_box->interaction_synch_cv), &(((G_Memory->lock_array)[source_box->exp_lock_index]))); };
-	 {pthread_mutex_unlock(&((G_Memory->lock_array)[(source_box->exp_lock_index)]));};
-   }
-   else {
-     {pthread_mutex_lock(&((G_Memory->lock_array)[(source_box->exp_lock_index)]));};
-	 while(source_box->interaction_synch != source_box->num_children)
-		 { pthread_cond_wait(&(source_box->interaction_synch_cv), &(((G_Memory->lock_array)[source_box->exp_lock_index]))); };
-     {pthread_mutex_unlock(&((G_Memory->lock_array)[(source_box->exp_lock_index)]));};
-   }
 
    source_pos.r = source_box->x_center;
    source_pos.i = source_box->y_center;
@@ -530,12 +476,12 @@ XListInteraction (box *source_box, box *dest_box)
 	 COMPLEX_ADD(result_exp[j], result_exp[j], temp);
       }
    }
-   {pthread_mutex_lock(&((G_Memory->lock_array)[(dest_box->exp_lock_index)]));};
+
    for (i = 0; i < Expansion_Terms; i++) {
       COMPLEX_SUB((dest_box->x_expansion[i]),
 		  (dest_box->x_expansion[i]), result_exp[i]);
    }
-   {pthread_mutex_unlock(&((G_Memory->lock_array)[(dest_box->exp_lock_index)]));};
+
    source_box->cost += X_LIST_COST(source_box->num_particles, Expansion_Terms);
 }
 
@@ -623,15 +569,11 @@ ShiftLocalExp (box *pb, box *cb)
    z0_pow_minus_n.r = One.r;
    z0_pow_minus_n.i = One.i;
    for (i = 0; i < Expansion_Terms; i++) {
-#ifndef WITH_NO_OPTIONAL_LOCKS
-	  {pthread_mutex_lock(&((G_Memory->lock_array)[(pb->exp_lock_index)]));};
-#endif // WITH_NO_OPTIONAL_LOCKS
+
       COMPLEX_ADD(pb->local_expansion[i], pb->local_expansion[i],
 		  pb->x_expansion[i]);
       COMPLEX_MUL(temp_exp[i], z0_pow_n, pb->local_expansion[i]);
-#ifndef WITH_NO_OPTIONAL_LOCKS
-	  {pthread_mutex_unlock(&((G_Memory->lock_array)[(pb->exp_lock_index)]));};
-#endif // WITH_NO_OPTIONAL_LOCKS
+
       COMPLEX_MUL(z0_pow_n, z0_pow_n, z0);
    }
    for (i = 0; i < Expansion_Terms; i++) {
@@ -646,12 +588,12 @@ ShiftLocalExp (box *pb, box *cb)
       COMPLEX_MUL(result_exp[i], temp, z0_pow_minus_n);
       COMPLEX_MUL(z0_pow_minus_n, z0_pow_minus_n, z0_inv);
    }
-   {pthread_mutex_lock(&((G_Memory->lock_array)[(cb->exp_lock_index)]));};
+ 
    for (i = 0; i < Expansion_Terms; i++) {
       COMPLEX_ADD((cb->local_expansion[i]), (cb->local_expansion[i]),
 		  result_exp[i]);
    }
-   {pthread_mutex_unlock(&((G_Memory->lock_array)[(cb->exp_lock_index)]));};
+
 }
 
 

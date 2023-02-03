@@ -131,60 +131,22 @@ main (int argc, char *argv[])
      }
    }
 
-   {__tid__[__threads__++]=pthread_self();};
 
    GetArguments();
    InitGlobalMemory();
    InitExpTables();
    CreateDistribution(Cluster, Model);
 
-/*   for (i = 1; i < Number_Of_Processors; i++) {
-      {
-	long	i, Error;
-
-	assert(__threads__<__MAX_THREADS__);
-	pthread_mutex_lock(&__intern__);
-	for (i = 0; i < () - 1; i++) {
-		Error = pthread_create(&__tid__[__threads__++], NULL, (void * (*)(void *))(ParallelExecute), NULL);
-		if (Error != 0) {
-			printf("Error in pthread_create().\n");
-			exit(-1);
-		}
-	}
-	pthread_mutex_unlock(&__intern__);
 
 	ParallelExecute();
-};
-   }
-   ParallelExecute();
-   {int aantal=Number_Of_Processors - 1; while (aantal--) pthread_join(__tid__[aantal], NULL);};*/
-   ;
-   {
-	long	i, Error;
-
-	assert(__threads__<__MAX_THREADS__);
-	pthread_mutex_lock(&__intern__);
-	for (i = 0; i < (Number_Of_Processors) - 1; i++) {
-		Error = pthread_create(&__tid__[__threads__++], NULL, (void * (*)(void *))(ParallelExecute), NULL);
-		if (Error != 0) {
-			printf("Error in pthread_create().\n");
-			exit(-1);
-		}
-	}
-	pthread_mutex_unlock(&__intern__);
-
-	ParallelExecute();
-};
-   {int aantal=Number_Of_Processors; while (aantal--) pthread_join(__tid__[aantal], NULL);};
-   ;
 
    printf("Finished FMM\n");
    PrintTimes();
    if (do_output) {
      PrintAllParticles();
    }
-   {exit(0);};
 }
+
 
 
 void
@@ -199,21 +161,10 @@ ParallelExecute ()
    unsigned long local_init_done = 0;
 
    local_time = (time_info *) malloc(sizeof(struct _Time_Info) * MAX_TIME_STEPS);
-   {
-pthread_mutex_lock(&((G_Memory->synch).bar_mutex));
-(G_Memory->synch).bar_teller++;
-if ((G_Memory->synch).bar_teller == (Number_Of_Processors)) {
-	(G_Memory->synch).bar_teller = 0;
-	pthread_cond_broadcast(&((G_Memory->synch).bar_cond));
-} else {
-	pthread_cond_wait(&((G_Memory->synch).bar_cond), &((G_Memory->synch).bar_mutex));
-}
-pthread_mutex_unlock(&((G_Memory->synch).bar_mutex));}
-;
-   {pthread_mutex_lock(&(G_Memory->count_lock));};
-     my_id = G_Memory->id;
-     G_Memory->id++;
-   {pthread_mutex_unlock(&(G_Memory->count_lock));};
+   
+   my_id = G_Memory->id;
+   G_Memory->id++;
+
 
 /* POSSIBLE ENHANCEMENT:  Here is where one might pin processes to
    processors to avoid migration */
@@ -245,17 +196,7 @@ pthread_mutex_unlock(&((G_Memory->synch).bar_mutex));}
       LockedPrint("Starting FMM with %d processor%s\n", Number_Of_Processors,
 		  (Number_Of_Processors == 1) ? "" : "s");
    }
-   {
-pthread_mutex_lock(&((G_Memory->synch).bar_mutex));
-(G_Memory->synch).bar_teller++;
-if ((G_Memory->synch).bar_teller == (Number_Of_Processors)) {
-	(G_Memory->synch).bar_teller = 0;
-	pthread_cond_broadcast(&((G_Memory->synch).bar_cond));
-} else {
-	pthread_cond_wait(&((G_Memory->synch).bar_cond), &((G_Memory->synch).bar_mutex));
-}
-pthread_mutex_unlock(&((G_Memory->synch).bar_mutex));}
-;
+   
    Local[my_id].Time = 0.0;
    for (MY_TIME_STEP = 0; MY_TIME_STEP < Time_Steps; MY_TIME_STEP++) {
 
@@ -287,17 +228,7 @@ pthread_mutex_unlock(&((G_Memory->synch).bar_mutex));}
    if (my_id == 0) {
       {long time(); (endtime) = time(0);};
    }
-   {
-pthread_mutex_lock(&((G_Memory->synch).bar_mutex));
-(G_Memory->synch).bar_teller++;
-if ((G_Memory->synch).bar_teller == (Number_Of_Processors)) {
-	(G_Memory->synch).bar_teller = 0;
-	pthread_cond_broadcast(&((G_Memory->synch).bar_cond));
-} else {
-	pthread_cond_wait(&((G_Memory->synch).bar_cond), &((G_Memory->synch).bar_mutex));
-}
-pthread_mutex_unlock(&((G_Memory->synch).bar_mutex));}
-;
+  
    for (MY_TIME_STEP = 0; MY_TIME_STEP < Time_Steps; MY_TIME_STEP++) {
      timing = &(MY_TIMING[MY_TIME_STEP]);
      timing->other_time = local_time[MY_TIME_STEP].other_time;
@@ -310,17 +241,7 @@ pthread_mutex_unlock(&((G_Memory->synch).bar_mutex));}
      timing->intra_time = local_time[MY_TIME_STEP].intra_time;
    }
    Local[my_id].init_done_times = local_init_done;
-   {
-pthread_mutex_lock(&((G_Memory->synch).bar_mutex));
-(G_Memory->synch).bar_teller++;
-if ((G_Memory->synch).bar_teller == (Number_Of_Processors)) {
-	(G_Memory->synch).bar_teller = 0;
-	pthread_cond_broadcast(&((G_Memory->synch).bar_cond));
-} else {
-	pthread_cond_wait(&((G_Memory->synch).bar_cond), &((G_Memory->synch).bar_mutex));
-}
-pthread_mutex_unlock(&((G_Memory->synch).bar_mutex));}
-;
+  
 }
 
 
@@ -354,17 +275,7 @@ StepSimulation (long my_id, time_info *local_time, long time_all)
    PartitionIterate(my_id, ComputeInteractions, BOTTOM);
    if (time_all)
       {long time(); (interaction_end) = time(0);};
-   {
-pthread_mutex_lock(&((G_Memory->synch).bar_mutex));
-(G_Memory->synch).bar_teller++;
-if ((G_Memory->synch).bar_teller == (Number_Of_Processors)) {
-	(G_Memory->synch).bar_teller = 0;
-	pthread_cond_broadcast(&((G_Memory->synch).bar_cond));
-} else {
-	pthread_cond_wait(&((G_Memory->synch).bar_cond), &((G_Memory->synch).bar_mutex));
-}
-pthread_mutex_unlock(&((G_Memory->synch).bar_mutex));}
-;
+  
    if (time_all)
       {long time(); (barrier_end) = time(0);};
    PartitionIterate(my_id, DownwardPass, TOP);

@@ -136,20 +136,17 @@ int main(int argc, char *argv[])
   BS = (long) floor(CS+0.5);
 
 
-  gp = (struct gpid *) malloc(sizeof(struct gpid));;
+  gp = (struct gpid *) malloc(sizeof(struct gpid));
   gp->pid = 0;
   Global = (struct GlobalMemory *)
-    malloc(sizeof(struct GlobalMemory));;
-  {
-	(Global->start).bar_teller=0;
-}
+    malloc(sizeof(struct GlobalMemory));
 
 
   MallocInit(P);  
 
-  i = 0;
-  while (++i < argc && argv[i][0] == '-')
-    ;
+  // i = 0;
+  // while (++i < argc && argv[i][0] == '-')
+  //   ;
   M = ReadSparse(argv[i], probname);
 
   distribute = LB_DOMAINS*10 + EMBED;

@@ -22,7 +22,6 @@
 
 
 
-#include <pthread.h>
 #include <stdlib.h>
 #include <semaphore.h>
 #include <assert.h>
@@ -31,11 +30,7 @@
 #endif
 #include <stdint.h>
 #define PAGE_SIZE 4096
-#define __MAX_THREADS__ 256
 
-pthread_t __tid__[__MAX_THREADS__];
-unsigned __threads__=0;
-pthread_mutex_t __intern__;
 
 
 g_mem *G_Memory;
@@ -61,16 +56,7 @@ InitGlobalMemory ()
    }
    G_Memory->count = 0;
    G_Memory->id = 0;
-   {pthread_mutex_init(&(G_Memory->io_lock),NULL);};
-   {pthread_mutex_init(&(G_Memory->mal_lock),NULL);};
-   {pthread_mutex_init(&(G_Memory->single_lock),NULL);};
-   {pthread_mutex_init(&(G_Memory->count_lock),NULL);};
-   { int i; for(i = 0; i < (MAX_LOCKS); i++) pthread_mutex_init(&((G_Memory->lock_array)[i]), NULL); };
-   {
-	pthread_mutex_init(&((G_Memory->synch).bar_mutex), NULL);
-	pthread_cond_init(&((G_Memory->synch).bar_cond), NULL);
-	(G_Memory->synch).bar_teller=0;
-};
+   
    G_Memory->max_x = -MAX_REAL;
    G_Memory->min_x = MAX_REAL;
    G_Memory->max_y = -MAX_REAL;

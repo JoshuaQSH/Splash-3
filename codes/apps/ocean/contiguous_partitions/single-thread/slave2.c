@@ -22,7 +22,6 @@
 
 
 
-#include <pthread.h>
 #include <stdlib.h>
 #include <semaphore.h>
 #include <assert.h>
@@ -31,11 +30,6 @@
 #endif
 #include <stdint.h>
 #define PAGE_SIZE 4096
-#define __MAX_THREADS__ 256
-
-extern pthread_t __tid__[__MAX_THREADS__];
-extern unsigned __threads__;
-extern pthread_mutex_t __intern__;
 
 
 #include <stdio.h>
@@ -354,16 +348,6 @@ void slave2(long procid, long firstrow, long lastrow, long numrows, long firstco
      }
    }
 
-   {
-pthread_mutex_lock(&((bars->sl_phase_1).bar_mutex));
-(bars->sl_phase_1).bar_teller++;
-if ((bars->sl_phase_1).bar_teller == (nprocs)) {
-	(bars->sl_phase_1).bar_teller = 0;
-	pthread_cond_broadcast(&((bars->sl_phase_1).bar_cond));
-} else {
-	pthread_cond_wait(&((bars->sl_phase_1).bar_cond), &((bars->sl_phase_1).bar_mutex));
-}
-pthread_mutex_unlock(&((bars->sl_phase_1).bar_mutex));}
 
 
 /*     *******************************************************
@@ -488,16 +472,6 @@ pthread_mutex_unlock(&((bars->sl_phase_1).bar_mutex));}
      }
    }
 
-   {
-pthread_mutex_lock(&((bars->sl_phase_2).bar_mutex));
-(bars->sl_phase_2).bar_teller++;
-if ((bars->sl_phase_2).bar_teller == (nprocs)) {
-	(bars->sl_phase_2).bar_teller = 0;
-	pthread_cond_broadcast(&((bars->sl_phase_2).bar_cond));
-} else {
-	pthread_cond_wait(&((bars->sl_phase_2).bar_cond), &((bars->sl_phase_2).bar_mutex));
-}
-pthread_mutex_unlock(&((bars->sl_phase_2).bar_mutex));}
 
 
 /* 	*******************************************************
@@ -572,16 +546,6 @@ pthread_mutex_unlock(&((bars->sl_phase_2).bar_mutex));}
 	       firstrow,lastrow,firstcol,lastcol);
    }
 
-   {
-pthread_mutex_lock(&((bars->sl_phase_3).bar_mutex));
-(bars->sl_phase_3).bar_teller++;
-if ((bars->sl_phase_3).bar_teller == (nprocs)) {
-	(bars->sl_phase_3).bar_teller = 0;
-	pthread_cond_broadcast(&((bars->sl_phase_3).bar_cond));
-} else {
-	pthread_cond_wait(&((bars->sl_phase_3).bar_cond), &((bars->sl_phase_3).bar_mutex));
-}
-pthread_mutex_unlock(&((bars->sl_phase_3).bar_mutex));}
 
 
 /*     *******************************************************
@@ -602,16 +566,7 @@ pthread_mutex_unlock(&((bars->sl_phase_3).bar_mutex));}
      laplacalc(procid,work4,work7,psiindex,
 	       firstrow,lastrow,firstcol,lastcol);
    }
-   {
-pthread_mutex_lock(&((bars->sl_phase_4).bar_mutex));
-(bars->sl_phase_4).bar_teller++;
-if ((bars->sl_phase_4).bar_teller == (nprocs)) {
-	(bars->sl_phase_4).bar_teller = 0;
-	pthread_cond_broadcast(&((bars->sl_phase_4).bar_cond));
-} else {
-	pthread_cond_wait(&((bars->sl_phase_4).bar_cond), &((bars->sl_phase_4).bar_mutex));
-}
-pthread_mutex_unlock(&((bars->sl_phase_4).bar_mutex));}
+
 
 
 /*     *******************************************************
@@ -749,16 +704,6 @@ pthread_mutex_unlock(&((bars->sl_phase_4).bar_mutex));}
      }
    }
    
-   {
-pthread_mutex_lock(&((bars->sl_phase_5).bar_mutex));
-(bars->sl_phase_5).bar_teller++;
-if ((bars->sl_phase_5).bar_teller == (nprocs)) {
-	(bars->sl_phase_5).bar_teller = 0;
-	pthread_cond_broadcast(&((bars->sl_phase_5).bar_cond));
-} else {
-	pthread_cond_wait(&((bars->sl_phase_5).bar_cond), &((bars->sl_phase_5).bar_mutex));
-}
-pthread_mutex_unlock(&((bars->sl_phase_5).bar_mutex));}
 
 
 /*     *******************************************************
@@ -864,16 +809,6 @@ pthread_mutex_unlock(&((bars->sl_phase_5).bar_mutex));}
      }
    }
 
-   {
-pthread_mutex_lock(&((bars->sl_phase_6).bar_mutex));
-(bars->sl_phase_6).bar_teller++;
-if ((bars->sl_phase_6).bar_teller == (nprocs)) {
-	(bars->sl_phase_6).bar_teller = 0;
-	pthread_cond_broadcast(&((bars->sl_phase_6).bar_cond));
-} else {
-	pthread_cond_wait(&((bars->sl_phase_6).bar_cond), &((bars->sl_phase_6).bar_mutex));
-}
-pthread_mutex_unlock(&((bars->sl_phase_6).bar_mutex));}
 
 
 /*     *******************************************************
@@ -931,20 +866,8 @@ pthread_mutex_unlock(&((bars->sl_phase_6).bar_mutex));}
 /* after computing its private sum, every process adds that to the
    shared running sum psiai  */
 
-   {pthread_mutex_lock(&(locks->psiailock));}
    global->psiai = global->psiai + psiaipriv;
-   {pthread_mutex_unlock(&(locks->psiailock));}
-
-   {
-pthread_mutex_lock(&((bars->sl_phase_7).bar_mutex));
-(bars->sl_phase_7).bar_teller++;
-if ((bars->sl_phase_7).bar_teller == (nprocs)) {
-	(bars->sl_phase_7).bar_teller = 0;
-	pthread_cond_broadcast(&((bars->sl_phase_7).bar_cond));
-} else {
-	pthread_cond_wait(&((bars->sl_phase_7).bar_cond), &((bars->sl_phase_7).bar_mutex));
-}
-pthread_mutex_unlock(&((bars->sl_phase_7).bar_mutex));}
+  
 
 
 /*      *******************************************************
@@ -1070,17 +993,6 @@ pthread_mutex_unlock(&((bars->sl_phase_7).bar_mutex));}
      }
    }
 
-   {
-pthread_mutex_lock(&((bars->sl_phase_8).bar_mutex));
-(bars->sl_phase_8).bar_teller++;
-if ((bars->sl_phase_8).bar_teller == (nprocs)) {
-	(bars->sl_phase_8).bar_teller = 0;
-	pthread_cond_broadcast(&((bars->sl_phase_8).bar_cond));
-} else {
-	pthread_cond_wait(&((bars->sl_phase_8).bar_cond), &((bars->sl_phase_8).bar_mutex));
-}
-pthread_mutex_unlock(&((bars->sl_phase_8).bar_mutex));}
-
 
 /*      *******************************************************
 
@@ -1163,16 +1075,6 @@ pthread_mutex_unlock(&((bars->sl_phase_8).bar_mutex));}
      }
    }
 
-   {
-pthread_mutex_lock(&((bars->sl_phase_9).bar_mutex));
-(bars->sl_phase_9).bar_teller++;
-if ((bars->sl_phase_9).bar_teller == (nprocs)) {
-	(bars->sl_phase_9).bar_teller = 0;
-	pthread_cond_broadcast(&((bars->sl_phase_9).bar_cond));
-} else {
-	pthread_cond_wait(&((bars->sl_phase_9).bar_cond), &((bars->sl_phase_9).bar_mutex));
-}
-pthread_mutex_unlock(&((bars->sl_phase_9).bar_mutex));}
 
 
 /*      *******************************************************
@@ -1286,16 +1188,5 @@ pthread_mutex_unlock(&((bars->sl_phase_9).bar_mutex));}
          t1a[iindex] = t1a[iindex] + timst*t1b[iindex];
      }
    }
-
-   {
-pthread_mutex_lock(&((bars->sl_phase_10).bar_mutex));
-(bars->sl_phase_10).bar_teller++;
-if ((bars->sl_phase_10).bar_teller == (nprocs)) {
-	(bars->sl_phase_10).bar_teller = 0;
-	pthread_cond_broadcast(&((bars->sl_phase_10).bar_cond));
-} else {
-	pthread_cond_wait(&((bars->sl_phase_10).bar_cond), &((bars->sl_phase_10).bar_mutex));
-}
-pthread_mutex_unlock(&((bars->sl_phase_10).bar_mutex));}
    
 }

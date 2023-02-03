@@ -54,7 +54,6 @@
 #endif
 #include <stdint.h>
 #define PAGE_SIZE 4096
-#define __MAX_THREADS__ 256
 
 
 #define MAXRAND                         32767.0
@@ -441,21 +440,8 @@ void OneSolve(long n, long block_size, long MyNum, long dostats)
   lc->t_in_mod = 0.0;
   lc->t_in_bar = 0.0;
 
-  /* barrier to ensure all initialization is done */
-  {
-(Global->start).bar_teller++;
-if ((Global->start).bar_teller == (P)) {
-	(Global->start).bar_teller = 0;
-} 
-
   /* to remove cold-start misses, all processors touch their own data */
   TouchA(block_size, MyNum);
-
-  {
-(Global->start).bar_teller++;
-if ((Global->start).bar_teller == (P)) {
-	(Global->start).bar_teller = 0;
-}
 
 
 /* POSSIBLE ENHANCEMENT:  Here is where one might reset the
