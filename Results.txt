@@ -1,0 +1,107 @@
+# FFT
+case name: fft.c
+case: p = [1, 2, 4, 8, 16] - number of processors; Must be a power of 2
+m = 24 - 2**M total complex data points transformed
+
+fcc:
+
+p == 1
+real    0m1.994s
+user    0m1.658s
+sys     0m0.336s
+p == 2
+real    0m1.333s
+user    0m1.025s
+sys     0m0.309s
+p == 4
+real    0m1.007s
+user    0m0.750s
+sys     0m0.258s
+p == 8
+real    0m0.851s
+user    0m0.614s
+sys     0m0.237s
+p == 16
+real    0m0.779s
+user    0m0.557s
+sys     0m0.222s
+
+---
+
+Splash-3 multithread:
+
+p == 1
+real    0m1.856s
+user    0m1.572s
+sys     0m0.284s
+p == 2
+real    0m1.304s
+user    0m1.549s
+sys     0m0.321s
+p == 4
+real    0m1.026s
+user    0m1.538s
+sys     0m0.379s
+p == 8
+real    0m0.883s
+user    0m1.571s
+sys     0m0.408s
+p == 16
+real    0m0.833s
+user    0m1.866s
+sys     0m0.481s
+
+
+# RADIX
+case name: radix.c
+case: p = [1, 2, 4, 8, 16] - number of processors; Must be a power of 2
+n = 1048576 - number of keys to sort
+
+fcc: 
+
+p == 1
+real    0m0.005s
+user    0m0.001s
+sys     0m0.004s
+p == 2
+real    0m0.006s
+user    0m0.001s
+sys     0m0.005s
+p == 4
+real    0m0.006s
+user    0m0.001s
+sys     0m0.005s
+p == 8
+real    0m0.005s
+user    0m0.000s
+sys     0m0.006s
+p == 16
+real    0m0.005s
+user    0m0.005s
+sys     0m0.001s
+
+
+---
+
+Splash-3 multithread:
+
+p == 1
+real    0m0.130s
+user    0m0.113s
+sys     0m0.018s
+p == 2
+real    0m0.080s
+user    0m0.148s
+sys     0m0.005s
+p == 4
+real    0m0.051s
+user    0m0.173s
+sys     0m0.009s
+p == 8
+real    0m0.034s
+user    0m0.219s
+sys     0m0.004s
+p == 16
+real    0m0.028s
+user    0m0.319s
+sys     0m0.012s
