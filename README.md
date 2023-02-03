@@ -3,6 +3,8 @@ This Benchmark Suite is basically copied from [SakalisC/Splash-3](https://github
 
 In addition, the `Makefile` and `Makefile.config` inside `./codes` have been modified, now we can get all the `*.c` and `*.h` file so far.
 
+To verify the single-threaded benchmark, can run the script like: `time NUM_WORKERS=1 ./out -p# -flag` . The symbol '#' is a placeholder for the number of threads.
+
 ------
 
 Splash-3 is a benchmark suite based on Splash-2 but without data races. It was first presented at [ISPASS'16](http://ieeexplore.ieee.org/abstract/document/7482078/).
