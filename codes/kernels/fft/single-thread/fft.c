@@ -17,7 +17,6 @@
 #endif
 #include <stdint.h>
 #define PAGE_SIZE 4096
-#define __MAX_THREADS__ 256
 
 
 #define SWAP_VALS(a,b) {double tmp; tmp=a; a=b; b=tmp;}
@@ -104,10 +103,12 @@ int main(int argc, char *argv[])
                   printerr("P must be >= 1\n");
                   exit(-1);
                 }
+#if 0
                 if (log_2(P) == -1) {
                   printerr("P must be a power of 2\n");
                   exit(-1);
                 }
+#endif
 	        break;  
       case 'm': M = atoi(optarg); 
                 m1 = M/2;

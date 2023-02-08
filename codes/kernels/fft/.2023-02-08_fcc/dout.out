@@ -1,0 +1,151 @@
+#File produced by LAMP Load Profiling pass
+#This file contains information on intra-iteration dependences
+#[var1 @ function * bbname -- var2 @ function * bbname] line1#line2# LAMPdata Loop: LoopID LAMPdata
+#var1 depends on var2
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+[##ORIG @ FFT1DOnce * bbName6 -- ##ORIG @ Reverse * bbName3]	UNKNOWN#UNKNOWN#	0xd93e10 0xdab830 ID:493 524 Loop:22 (0xdcfe00) T:64 P:1.93939  1 Tl:32 Pl:0.969697
+[##ORIG @ FFT1DOnce * bbName6 -- ##ORIG @ Reverse * bbName3]	UNKNOWN#UNKNOWN#	0xd93e10 0xdab8c0 ID:493 525 Loop:22 (0xdcfe00) T:320 P:9.69697  1 Tl:32 Pl:0.969697
+[##ORIG @ FFT1DOnce * bbName6 -- ##ORIG @ Reverse * bbName3]	UNKNOWN#UNKNOWN#	0xd93e10 0xdab830 ID:493 524 Loop:23 (0xdcf9a0) T:64 P:1.93939  2 Tl:32 Pl:0.969697
+[##ORIG @ FFT1DOnce * bbName6 -- ##ORIG @ Reverse * bbName3]	UNKNOWN#UNKNOWN#	0xd93e10 0xdab8c0 ID:493 525 Loop:23 (0xdcf9a0) T:320 P:9.69697  2 Tl:32 Pl:0.969697
+ Tl:1 Pl:1
+[##ORIG @ FFT1DOnce * bbName6 -- ##ORIG @ Reverse * bbName3]	UNKNOWN#UNKNOWN#	0xd93f20 0xdabc90 ID:494 528 Loop:22 (0xdcfe00) T:64 P:1.93939  3 Tl:32 Pl:0.969697
+[##ORIG @ FFT1DOnce * bbName6 -- ##ORIG @ Reverse * bbName3]	UNKNOWN#UNKNOWN#	0xd93f20 0xdabd20 ID:494 529 Loop:22 (0xdcfe00) T:320 P:9.69697  3 Tl:32 Pl:0.969697
+[##ORIG @ FFT1DOnce * bbName6 -- ##ORIG @ Reverse * bbName3]	UNKNOWN#UNKNOWN#	0xd93f20 0xdabc90 ID:494 528 Loop:23 (0xdcf9a0) T:64 P:1.93939  3 Tl:32 Pl:0.969697
+[##ORIG @ FFT1DOnce * bbName6 -- ##ORIG @ Reverse * bbName3]	UNKNOWN#UNKNOWN#	0xd93f20 0xdabd20 ID:494 529 Loop:23 (0xdcf9a0) T:320 P:9.69697  3 Tl:32 Pl:0.969697
+ Tl:1 Pl:1
+[##ORIG @ FFT1DOnce * bbName6 -- ##ORIG @ Reverse * bbName3]	UNKNOWN#UNKNOWN#	0xd94390 0xdab830 ID:495 524 Loop:22 (0xdcfe00) T:320 P:9.69697  3 Tl:32 Pl:0.969697
+[##ORIG @ FFT1DOnce * bbName6 -- ##ORIG @ Reverse * bbName3]	UNKNOWN#UNKNOWN#	0xd94390 0xdab8c0 ID:495 525 Loop:22 (0xdcfe00) T:64 P:1.93939  3 Tl:32 Pl:0.969697
+[##ORIG @ FFT1DOnce * bbName6 -- ##ORIG @ Reverse * bbName3]	UNKNOWN#UNKNOWN#	0xd94390 0xdab830 ID:495 524 Loop:23 (0xdcf9a0) T:320 P:9.69697  3 Tl:32 Pl:0.969697
+[##ORIG @ FFT1DOnce * bbName6 -- ##ORIG @ Reverse * bbName3]	UNKNOWN#UNKNOWN#	0xd94390 0xdab8c0 ID:495 525 Loop:23 (0xdcf9a0) T:64 P:1.93939  3 Tl:32 Pl:0.969697
+ Tl:1 Pl:1
+[##ORIG @ FFT1DOnce * bbName6 -- ##ORIG @ Reverse * bbName3]	UNKNOWN#UNKNOWN#	0xe30450 0xdabc90 ID:496 528 Loop:22 (0xdcfe00) T:320 P:9.69697  3 Tl:32 Pl:0.969697
+[##ORIG @ FFT1DOnce * bbName6 -- ##ORIG @ Reverse * bbName3]	UNKNOWN#UNKNOWN#	0xe30450 0xdabd20 ID:496 529 Loop:22 (0xdcfe00) T:64 P:1.93939  3 Tl:32 Pl:0.969697
+[##ORIG @ FFT1DOnce * bbName6 -- ##ORIG @ Reverse * bbName3]	UNKNOWN#UNKNOWN#	0xe30450 0xdabc90 ID:496 528 Loop:23 (0xdcf9a0) T:320 P:9.69697  3 Tl:32 Pl:0.969697
+[##ORIG @ FFT1DOnce * bbName6 -- ##ORIG @ Reverse * bbName3]	UNKNOWN#UNKNOWN#	0xe30450 0xdabd20 ID:496 529 Loop:23 (0xdcf9a0) T:64 P:1.93939  3 Tl:32 Pl:0.969697
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+[##ORIG @ TwiddleOneCol * bbName2 -- ##ORIG @ FFT1DOnce * bbName6]	UNKNOWN#UNKNOWN#	0xe354e0 0xe30570 ID:507 497 Loop:23 (0xdcf9a0) T:512 P:15.5152  3 Tl:32 Pl:0.969697
+[##ORIG @ TwiddleOneCol * bbName2 -- ##ORIG @ FFT1DOnce * bbName6]	UNKNOWN#UNKNOWN#	0xe354e0 0xe307b0 ID:507 499 Loop:23 (0xdcf9a0) T:512 P:15.5152  3 Tl:32 Pl:0.969697
+[##ORIG @ TwiddleOneCol * bbName2 -- ##ORIG @ FFT1DOnce * bbName6]	UNKNOWN#UNKNOWN#	0xe35680 0xe30690 ID:508 498 Loop:23 (0xdcf9a0) T:512 P:15.5152  3 Tl:32 Pl:0.969697
+[##ORIG @ TwiddleOneCol * bbName2 -- ##ORIG @ FFT1DOnce * bbName6]	UNKNOWN#UNKNOWN#	0xe35680 0xe308d0 ID:508 500 Loop:23 (0xdcf9a0) T:512 P:15.5152  3 Tl:32 Pl:0.969697
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1

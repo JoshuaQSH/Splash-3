@@ -1,0 +1,13 @@
+#File produced by LAMP Load Profiling pass
+#This file contains information on loop-carried dependences
+#[var1 @ function * bbname -- var2 @ function * bbname] line1#line2# LAMPdata Loop: LoopID LAMPdata
+#var1 depends on var2
+[##ORIG @ FFT1DOnce * bbName6 -- ##ORIG @ FFT1DOnce * bbName6]	UNKNOWN#UNKNOWN#	0xd93e10 0xe30570 ID:493 497 Loop:40 (0xe20250) T:2048 P:5.33333  3 Tl:256 Pl:0.666667
+[##ORIG @ FFT1DOnce * bbName6 -- ##ORIG @ FFT1DOnce * bbName6]	UNKNOWN#UNKNOWN#	0xd93e10 0xe307b0 ID:493 499 Loop:40 (0xe20250) T:2048 P:5.33333  3 Tl:256 Pl:0.666667
+[##ORIG @ FFT1DOnce * bbName6 -- ##ORIG @ FFT1DOnce * bbName6]	UNKNOWN#UNKNOWN#	0xd93f20 0xe30690 ID:494 498 Loop:40 (0xe20250) T:2048 P:5.33333  3 Tl:256 Pl:0.666667
+[##ORIG @ FFT1DOnce * bbName6 -- ##ORIG @ FFT1DOnce * bbName6]	UNKNOWN#UNKNOWN#	0xd93f20 0xe308d0 ID:494 500 Loop:40 (0xe20250) T:2048 P:5.33333  3 Tl:256 Pl:0.666667
+[##ORIG @ FFT1DOnce * bbName6 -- ##ORIG @ FFT1DOnce * bbName6]	UNKNOWN#UNKNOWN#	0xd94390 0xe30570 ID:495 497 Loop:40 (0xe20250) T:2048 P:5.33333  3 Tl:256 Pl:0.666667
+[##ORIG @ FFT1DOnce * bbName6 -- ##ORIG @ FFT1DOnce * bbName6]	UNKNOWN#UNKNOWN#	0xd94390 0xe307b0 ID:495 499 Loop:40 (0xe20250) T:2048 P:5.33333  3 Tl:256 Pl:0.666667
+[##ORIG @ FFT1DOnce * bbName6 -- ##ORIG @ FFT1DOnce * bbName6]	UNKNOWN#UNKNOWN#	0xe30450 0xe30690 ID:496 498 Loop:40 (0xe20250) T:2048 P:5.33333  3 Tl:256 Pl:0.666667
+[##ORIG @ FFT1DOnce * bbName6 -- ##ORIG @ FFT1DOnce * bbName6]	UNKNOWN#UNKNOWN#	0xe30450 0xe308d0 ID:496 500 Loop:40 (0xe20250) T:2048 P:5.33333  3 Tl:256 Pl:0.666667
+[is_output @ FFT1DOnce * bbName9 -- is_output @ FFT1DOnce * bbName10]	UNKNOWN#UNKNOWN#	0xe30db0 0xe31040 ID:501 503 Loop:23 (0xdcf9a0) T:31 P:0.939394  3 Tl:31 Pl:0.939394

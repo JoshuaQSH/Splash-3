@@ -130,30 +130,25 @@ int main(int argc, char *argv[])
               break;
     }
   }
-
   CS = CacheSize / 8.0;
   CS = sqrt(CS);
   BS = (long) floor(CS+0.5);
 
 
-  gp = (struct gpid *) malloc(sizeof(struct gpid));;
+  gp = (struct gpid *) malloc(sizeof(struct gpid));
   gp->pid = 0;
   Global = (struct GlobalMemory *)
-    malloc(sizeof(struct GlobalMemory));;
-  {
-	(Global->start).bar_teller=0;
-}
+    malloc(sizeof(struct GlobalMemory));
 
-
-  MallocInit(P);  
-
+  MallocInit(P);
+#if 0
   i = 0;
-  while (++i < argc && argv[i][0] == '-')
-    ;
+  while (++i < argc && argv[i][0] == '-');
+#endif
+#if 0
   M = ReadSparse(argv[i], probname);
-
+#endif
   distribute = LB_DOMAINS*10 + EMBED;
-
   printf("\n");
   printf("Sparse Cholesky Factorization\n");
   printf("     Problem: %s\n",probname);
@@ -180,7 +175,6 @@ int main(int argc, char *argv[])
   CreatePermutation(M.n, PERM, NO_PERM);
 
   InvertPerm(M.n, PERM, INVP);
-
   T = (long *) MyMalloc((M.n+1)*sizeof(long), DISTRIBUTED);
   EliminationTreeFromA(M, T, PERM, INVP);
 
@@ -199,7 +193,6 @@ int main(int argc, char *argv[])
 
   Amalgamate2(1, M, T, nz, node, (long *) NULL, 1);
 
-
   assigned_ops = (long *) malloc(P*sizeof(long));
   domain = (long *) MyMalloc(M.n*sizeof(long), DISTRIBUTED);
   domains = (long *) MyMalloc(M.n*sizeof(long), DISTRIBUTED);
@@ -208,7 +201,6 @@ int main(int argc, char *argv[])
   fflush(stdout);
   Partition(M, P, T, assigned_ops, domain, domains, proc_domains);
   free(assigned_ops);
-
   {
     long i, tot_domain_updates, tail_length;
 
@@ -228,7 +220,6 @@ int main(int argc, char *argv[])
   }
   
   ComputeTargetBlockSize(M, P);
-
   printf("Target partition size %ld, postpass size %ld\n",
 	 target_partition_size, postpass_partition_size);
 
@@ -240,7 +231,6 @@ int main(int argc, char *argv[])
   free(PERM2);
 
   InvertPerm(M.n, PERM, INVP);
-
   b = CreateVector(M);
 
   ps = postpass_partition_size;
@@ -249,21 +239,21 @@ int main(int argc, char *argv[])
 		       domain, partition);
 
   FillInStructure(M, firstchild, child, PERM, INVP);
-
   AssignBlocksNow();
 
   AllocateNZ();
 
   FillInNZ(M, PERM, INVP);
+#if 0
   FreeMatrix(M);
+#endif
 
   InitTaskQueues(P);
 
   PreAllocate1FO();
   ComputeRemainingFO();
   ComputeReceivedFO();
-
-	Go();
+  Go();
 
   printf("%.0f operations for factorization\n", work_tree[M.n]);
 

@@ -51,7 +51,6 @@
 #endif
 #include <stdint.h>
 #define PAGE_SIZE 4096
-#define __MAX_THREADS__ 256
 
 #define MAXRAND					32767.0
 #define DEFAULT_N				128
@@ -144,7 +143,6 @@ int main(int argc, char *argv[])
               printf("Default: LU -n%1d -p%1d -b%1d\n",
                      DEFAULT_N,DEFAULT_P,DEFAULT_B);
               exit(0);
-              break;
     }
   }
 
@@ -219,15 +217,7 @@ int main(int argc, char *argv[])
     PrintA();
   }
 
-  ;
-
-  {
-	long	i, Error;
-
-	SlaveStart();
-};
-
-  ;
+  SlaveStart();
 
   if (doprint) {
     printf("\nMatrix after decomposition:\n");
@@ -363,7 +353,6 @@ void OneSolve(long n, long block_size, long MyNum, long dostats)
   if ((MyNum == 0) || (dostats)) {
     {long time(); (myrs) = time(0);};
   }
-
   lu(n, block_size, MyNum, lc, dostats);
 
   if ((MyNum == 0) || (dostats)) {
@@ -388,7 +377,7 @@ void OneSolve(long n, long block_size, long MyNum, long dostats)
 
 void lu0(double *a, long n, long stride)
 {
-  long j, k, length;
+  long j, k, length, i;
   double alpha;
 
   for (k=0; k<n; k++) {
@@ -397,7 +386,12 @@ void lu0(double *a, long n, long stride)
       a[k+j*stride] /= a[k+k*stride];
       alpha = -a[k+j*stride];
       length = n-k-1;
-      daxpy(&a[k+1+j*stride], &a[k+1+k*stride], n-k-1, alpha);
+	  
+	  // for (i=0; i<(n-k-1); i++) {
+		//   a[k+1+j*stride+i] += alpha* a[k+1+k*stride+i];
+	  // }
+
+    daxpy(&a[k+1+j*stride], &a[k+1+k*stride], n-k-1, alpha);
     }
   }
 }
@@ -405,12 +399,16 @@ void lu0(double *a, long n, long stride)
 
 void bdiv(double *a, double *diag, long stride_a, long stride_diag, long dimi, long dimk)
 {
-  long j, k;
+  long j, k, i;
   double alpha;
 
   for (k=0; k<dimk; k++) {
     for (j=k+1; j<dimk; j++) {
       alpha = -diag[k+j*stride_diag];
+	  
+	  // for (i=0; i<dimi; i++) {
+		//   a[j*stride_a] += alpha*a[k*stride_a];
+	  // }
       daxpy(&a[j*stride_a], &a[k*stride_a], dimi, alpha);
     }
   }
@@ -419,7 +417,7 @@ void bdiv(double *a, double *diag, long stride_a, long stride_diag, long dimi, l
 
 void bmodd(double *a, double *c, long dimi, long dimj, long stride_a, long stride_c)
 {
-  long j, k, length;
+  long j, k, length, i;
   double alpha;
 
   for (k=0; k<dimi; k++)
@@ -427,6 +425,10 @@ void bmodd(double *a, double *c, long dimi, long dimj, long stride_a, long strid
       c[k+j*stride_c] /= a[k+k*stride_a];
       alpha = -c[k+j*stride_c];
       length = dimi - k - 1;
+	  
+	  // for (i=0; i<(dimi-k-1); i++) {
+		//   c[k+1+j*stride_c+i] += alpha*a[k+1+k*stride_a+i];
+	  // }
       daxpy(&c[k+1+j*stride_c], &a[k+1+k*stride_a], dimi-k-1, alpha);
     }
 }
@@ -434,12 +436,16 @@ void bmodd(double *a, double *c, long dimi, long dimj, long stride_a, long strid
 
 void bmod(double *a, double *b, double *c, long dimi, long dimj, long dimk, long stride)
 {
-  long j, k;
+  long j, k, i;
   double alpha;
 
   for (k=0; k<dimk; k++) {
     for (j=0; j<dimj; j++) {
       alpha = -b[k+j*stride];
+	  
+	  // for (i=0; i<dimi; i++) {
+		//   c[j*stride+i] += alpha*a[k*stride+i];
+	  // }
       daxpy(&c[j*stride], &a[k*stride], dimi, alpha);
     }
   }
@@ -485,7 +491,6 @@ void lu(long n, long bs, long MyNum, struct LocalCopies *lc, long dostats)
     if (kl>n) {
       kl = n;
     }
-
     if ((MyNum == 0) || (dostats)) {
       {long time(); (t1) = time(0);};
     }
@@ -493,6 +498,7 @@ void lu(long n, long bs, long MyNum, struct LocalCopies *lc, long dostats)
     /* factor diagonal block */
     if (BlockOwner(K, K) == MyNum) {
       A = &(a[k+k*n]); 
+	  // TODO: 1
       lu0(A, kl-k, strI);
     }
 
@@ -503,7 +509,6 @@ void lu(long n, long bs, long MyNum, struct LocalCopies *lc, long dostats)
     if ((MyNum == 0) || (dostats)) {
       {long time(); (t2) = time(0);};
     }
-
     /* divide column k by diagonal block */
     D = &(a[k+k*n]);
     for (i=kl, I=K+1; i<n; i+=bs, I++) {
@@ -514,6 +519,7 @@ void lu(long n, long bs, long MyNum, struct LocalCopies *lc, long dostats)
           il = n;
         }
         A = &(a[i+k*n]);
+		// TODO: 2
         bdiv(A, D, strI, n, il-i, kl-k);
       }
     }
@@ -526,6 +532,7 @@ void lu(long n, long bs, long MyNum, struct LocalCopies *lc, long dostats)
           jl = n;
         }
         A = &(a[k+j*n]);
+		// TODO: 3
         bmodd(D, A, kl-k, jl-j, n, strI);
       }
     }
@@ -554,6 +561,7 @@ void lu(long n, long bs, long MyNum, struct LocalCopies *lc, long dostats)
 //		if (K == 0) printf("%lx\n", BlockOwner(I, J));
           B = &(a[k+j*n]);
           C = &(a[i+j*n]);
+		  // TODO: 4
           bmod(A, B, C, il-i, jl-j, kl-k, n);
         }
       }

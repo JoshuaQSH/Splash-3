@@ -1,0 +1,116 @@
+#File produced by LAMP Load Profiling pass
+#This file contains information on intra-iteration dependences
+#[var1 @ function * bbname -- var2 @ function * bbname] line1#line2# LAMPdata Loop: LoopID LAMPdata
+#var1 depends on var2
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+[##ORIG @ main * bbName25 -- ##ORIG @ main * bbName25]	UNKNOWN#UNKNOWN#	0xf20800 0xf20680 ID:73 71 Loop:6 (0xea3420) T:1 P:0.5  3 Tl:1 Pl:0.5
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+[##ORIG @ InitA * bbName3 -- ##ORIG @ InitA * bbName2]	UNKNOWN#UNKNOWN#	0xf5e180 0xf5ddb0 ID:215 212 Loop:15 (0xf458a0) T:512 P:0.00194932  6 Tl:512 Pl:0.00194932
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+[##ORIG @ bdiv * bbName4 -- ##ORIG @ lu0 * bbName3]	UNKNOWN#UNKNOWN#	0xfd99d0 0xfd34c0 ID:356 353 Loop:33 (0xfae260) T:59520 P:1803.64  9 Tl:31 Pl:0.939394
+ Tl:1 Pl:1
+[##ORIG @ bmodd * bbName2 -- ##ORIG @ daxpy * bbName2]	UNKNOWN#UNKNOWN#	0xfdfe50 0xf64e50 ID:360 369 Loop:33 (0xfae260) T:119040 P:3607.27  9 Tl:31 Pl:0.939394
+ Tl:1 Pl:1
+[##ORIG @ bmod * bbName3 -- ##ORIG @ bmodd * bbName2]	UNKNOWN#UNKNOWN#	0xfe5ae0 0xfe01a0 ID:365 362 Loop:33 (0xfae260) T:2666496 P:80802.9  10 Tl:31 Pl:0.939394
+ Tl:1 Pl:1
+[##ORIG @ daxpy * bbName2 -- ##ORIG @ daxpy * bbName2]	UNKNOWN#UNKNOWN#	0xf64b90 0xf64e50 ID:367 369 Loop:33 (0xfae260) T:40830720 P:1.23729e+06  10 Tl:31 Pl:0.939394
+ Tl:1 Pl:1
+ Tl:1 Pl:1

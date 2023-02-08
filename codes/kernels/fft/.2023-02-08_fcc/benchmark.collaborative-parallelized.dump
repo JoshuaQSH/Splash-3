@@ -1,0 +1,250 @@
+opt --enable-new-pm=0 -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/CallGraph.so -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/libSvf.so -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/libCudd.so -stat=false -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/libSCAFUtilities.so -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/libMemoryAnalysisModules.so -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/AllocAA.so -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/TalkDown.so -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/CallGraph.so -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/PDGAnalysis.so -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/Architecture.so -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/BasicUtilities.so -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/Task.so -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/DataFlow.so -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/HotProfiler.so -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/LoopStructure.so -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/Invariants.so -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/InductionVariables.so -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/Loops.so -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/Scheduler.so -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/OutlinerPass.so -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/MetadataManager.so -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/LoopTransformer.so -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/Noelle.so -globals-aa -cfl-steens-aa -tbaa -scev-aa -cfl-anders-aa --basic-aa --objc-arc-aa -basic-loop-aa -scev-loop-aa -auto-restrict-aa -intrinsic-aa -global-malloc-aa -pure-fun-aa -semi-local-fun-aa -phi-maze-aa -no-capture-global-aa -no-capture-src-aa -type-aa -no-escape-fields-aa -acyclic-aa -disjoint-fields-aa -field-malloc-aa -loop-variant-allocation-aa -std-in-out-err-aa -array-of-structures-aa -kill-flow-aa -callsite-depth-combinator-aa -unique-access-paths-aa -llvm-aa-results -scalar-evolution -loops -domtree -postdomtree -noellescaf -noellesvf -load /home/shenghao/fcc-0.8-uptodate/install/fcc-install-debug/lib/libUtil.so -load /home/shenghao/fcc-0.8-uptodate/install/fcc-install-debug/lib/libLoopProf.so -load /home/shenghao/fcc-0.8-uptodate/install/fcc-install-debug/lib/libMetadata.so -load /home/shenghao/fcc-0.8-uptodate/install/fcc-install-debug/lib/libLAMPLoad.so -load /home/shenghao/fcc-0.8-uptodate/install/fcc-install-debug/lib/libLAMP.so -load /home/shenghao/fcc-0.8-uptodate/install/fcc-install-debug/lib/libRedux.so -load /home/shenghao/fcc-0.8-uptodate/install/fcc-install-debug/lib/libPointsToProfiler.so -load /home/shenghao/fcc-0.8-uptodate/install/fcc-install-debug/lib/libGraphAlgorithms.so -load /home/shenghao/fcc-0.8-uptodate/install/fcc-install-debug/lib/libGraphAlgorithms.so -load /home/shenghao/fcc-0.8-uptodate/install/fcc-install-debug/lib/libStrategy.so -load /home/shenghao/fcc-0.8-uptodate/install/fcc-install-debug/lib/libOrchestration.so -load /home/shenghao/fcc-0.8-uptodate/install/fcc-install-debug/lib/libSpeculation.so -load /home/shenghao/fcc-0.8-uptodate/install/fcc-install-debug/lib/libCodeGen.so -lamp-inst-cnt -lamp-map-loop -lamp-load-profile -basic-loop-aa -scev-loop-aa -auto-restrict-aa -intrinsic-aa -global-malloc-aa -pure-fun-aa -semi-local-fun-aa -phi-maze-aa -no-capture-global-aa -no-capture-src-aa -type-aa -no-escape-fields-aa -acyclic-aa -disjoint-fields-aa -field-malloc-aa -loop-variant-allocation-aa -std-in-out-err-aa -array-of-structures-aa -kill-flow-aa -callsite-depth-combinator-aa -unique-access-paths-aa -llvm-aa-results -basic-aa -globals-aa -cfl-steens-aa -tbaa -scev-aa -cfl-anders-aa -objc-arc-aa --scoped-noalias-aa -veto -nander -read-specpriv-profile -remed-selector -spec-priv-preprocess -spec-priv-apply-separation-spec -spec-priv-apply-control-spec -spec-priv-apply-value-pred-spec -specpriv-mtcg benchmark.bc -o benchmark.collaborative-pipeline-nopeep.bc
+Focus on these loops (in this order):
+ - FFT1D :: ..split_crit_edge	Time 0 / 0 Coverage: -nan%
+ - FFT1D :: bbName8	Time 0 / 0 Coverage: -nan%
+ - InitU2 :: bbName1	Time 0 / 0 Coverage: -nan%
+ - InitU2 :: bbName3	Time 0 / 0 Coverage: -nan%
+ - InitX :: bbName1	Time 0 / 0 Coverage: -nan%
+ - InitX :: bbName3	Time 0 / 0 Coverage: -nan%
+ - Reverse :: bbName1	Time 0 / 0 Coverage: -nan%
+ - SlaveStart :: bbName5	Time 0 / 0 Coverage: -nan%
+ - TouchArray :: bbName1	Time 0 / 0 Coverage: -nan%
+ - TouchArray :: bbName3	Time 0 / 0 Coverage: -nan%
+ - TouchArray :: bbName5	Time 0 / 0 Coverage: -nan%
+ - Transpose :: .preheader	Time 0 / 0 Coverage: -nan%
+ - Transpose :: bbName25	Time 0 / 0 Coverage: -nan%
+ - TwiddleOneCol :: bbName1	Time 0 / 0 Coverage: -nan%
+ - main :: bbName45	Time 0 / 0 Coverage: -nan%
+ - main :: bbName50	Time 0 / 0 Coverage: -nan%
+Profile has incomplete allocation coverage because   %3 = getelementptr inbounds [13 x i8], [13 x i8]* @.str, i64 0, i64 0
+Profile has incomplete allocation coverage because   %50 = tail call i64 @pthread_self() #14, !namer !118
+Profile has incomplete allocation coverage because   %166 = load %struct.GlobalMemory*, %struct.GlobalMemory** @Global, align 8, !tbaa !39, !namer !285
+Profile has incomplete allocation coverage because   %169 = load %struct.GlobalMemory*, %struct.GlobalMemory** @Global, align 8, !tbaa !39, !namer !288
+Profile has incomplete allocation coverage because   store i32 0, i32* %173, align 8, !tbaa !293, !namer !294
+Profile has incomplete allocation coverage because   %196 = tail call i32 @pthread_mutex_lock(%union.pthread_mutex_t* nonnull @__intern__) #11, !namer !331
+Profile has incomplete allocation coverage because   %207 = tail call i32 @pthread_mutex_unlock(%union.pthread_mutex_t* nonnull @__intern__) #11, !namer !351
+Profile has incomplete allocation coverage because   %213 = tail call i32 @pthread_join(i64 %212, i8** null) #11, !namer !364
+Profile has incomplete allocation coverage because   tail call void @srand48(i64 0) #11, !namer !33
+Profile has incomplete allocation coverage because   %8 = tail call double @drand48() #11, !namer !54
+Profile has incomplete allocation coverage because   %12 = tail call double @drand48() #11, !namer !61
+Profile has incomplete allocation coverage because   %smax = tail call i64 @llvm.smax.i64(i64 %4, i64 0), !namer !44
+Profile has incomplete allocation coverage because   %smax = tail call i64 @llvm.smax.i64(i64 %2, i64 0), !namer !34
+Profile has incomplete allocation coverage because   call void @llvm.lifetime.end.p0i8(i64 8, i8* nonnull %1) #11, !namer !207
+Profile has incomplete allocation coverage because   call void @llvm.lifetime.start.p0i8(i64 8, i8* nonnull %1) #11, !namer !35
+Profile has incomplete allocation coverage because   %4 = tail call i32 @pthread_mutex_lock(%union.pthread_mutex_t* nonnull %3) #11, !namer !45
+Profile has incomplete allocation coverage because   %11 = tail call i32 @pthread_mutex_unlock(%union.pthread_mutex_t* nonnull %10) #11, !namer !57
+Profile has incomplete allocation coverage because   %14 = tail call i32 @pthread_mutex_lock(%union.pthread_mutex_t* nonnull %13) #11, !namer !60
+Profile has incomplete allocation coverage because   %23 = tail call i32 @pthread_cond_broadcast(%union.pthread_cond_t* nonnull %22) #11, !namer !74
+Profile has incomplete allocation coverage because   %29 = tail call i32 @pthread_mutex_unlock(%union.pthread_mutex_t* nonnull %28) #11, !namer !82
+Profile has incomplete allocation coverage because   %smax = tail call i64 @llvm.smax.i64(i64 %37, i64 0), !namer !94
+Profile has incomplete allocation coverage because   %57 = tail call i32 @pthread_mutex_lock(%union.pthread_mutex_t* nonnull %56) #11, !namer !126
+Profile has incomplete allocation coverage because   %66 = tail call i32 @pthread_cond_broadcast(%union.pthread_cond_t* nonnull %65) #11, !namer !138
+Profile has incomplete allocation coverage because   %72 = tail call i32 @pthread_mutex_unlock(%union.pthread_mutex_t* nonnull %71) #11, !namer !146
+Profile has incomplete allocation coverage because   %smax6 = tail call i64 @llvm.smax.i64(i64 %8, i64 0), !namer !40
+Profile has incomplete allocation coverage because   %smax = tail call i64 @llvm.smax.i64(i64 %6, i64 0), !namer !50
+Profile has incomplete allocation coverage because   %smax4 = tail call i64 @llvm.smax.i64(i64 %5, i64 %4), !namer !51
+Profile has incomplete allocation coverage because   %22 = getelementptr inbounds %struct.GlobalMemory, %struct.GlobalMemory* %21, i64 0, i32 2, i32 0, !namer !44
+Profile has incomplete allocation coverage because   %32 = tail call i32 @pthread_cond_broadcast(%union.pthread_cond_t* nonnull %31) #11, !namer !64
+Profile has incomplete allocation coverage because   %38 = tail call i32 @pthread_mutex_unlock(%union.pthread_mutex_t* nonnull %37) #11, !namer !72
+Profile has incomplete allocation coverage because   %smax20 = tail call i64 @llvm.smax.i64(i64 %10, i64 %9), !namer !91
+Profile has incomplete allocation coverage because   %55 = tail call i32 @pthread_mutex_lock(%union.pthread_mutex_t* nonnull %54) #11, !namer !109
+Profile has incomplete allocation coverage because   %64 = tail call i32 @pthread_cond_broadcast(%union.pthread_cond_t* nonnull %63) #11, !namer !121
+Profile has incomplete allocation coverage because   %70 = tail call i32 @pthread_mutex_unlock(%union.pthread_mutex_t* nonnull %69) #11, !namer !129
+Profile has incomplete allocation coverage because   %92 = tail call i32 @pthread_mutex_lock(%union.pthread_mutex_t* nonnull %91) #11, !namer !175
+Profile has incomplete allocation coverage because   %101 = tail call i32 @pthread_cond_broadcast(%union.pthread_cond_t* nonnull %100) #11, !namer !187
+Profile has incomplete allocation coverage because   %107 = tail call i32 @pthread_mutex_unlock(%union.pthread_mutex_t* nonnull %106) #11, !namer !195
+Profile has incomplete allocation coverage because   %120 = tail call i32 @pthread_mutex_lock(%union.pthread_mutex_t* nonnull %119) #11, !namer !213
+Profile has incomplete allocation coverage because   %129 = tail call i32 @pthread_cond_broadcast(%union.pthread_cond_t* nonnull %128) #11, !namer !225
+Profile has incomplete allocation coverage because   %135 = tail call i32 @pthread_mutex_unlock(%union.pthread_mutex_t* nonnull %134) #11, !namer !233
+Profile has incomplete allocation coverage because   %146 = tail call i32 @pthread_mutex_lock(%union.pthread_mutex_t* nonnull %145) #11, !namer !254
+Profile has incomplete allocation coverage because   %155 = tail call i32 @pthread_cond_broadcast(%union.pthread_cond_t* nonnull %154) #11, !namer !266
+Profile has incomplete allocation coverage because   %161 = tail call i32 @pthread_mutex_unlock(%union.pthread_mutex_t* nonnull %160) #11, !namer !274
+Profile has incomplete allocation coverage because   %smax46 = tail call i64 @llvm.smax.i64(i64 %13, i64 0), !namer !49
+Profile has incomplete allocation coverage because   %smax49 = tail call i64 @llvm.smax.i64(i64 %spec.select, i64 0), !namer !51
+Profile has incomplete allocation coverage because   %smax43 = tail call i64 @llvm.smax.i64(i64 %3, i64 0), !namer !123
+Profile has incomplete allocation coverage because   %smax6 = tail call i64 @llvm.smax.i64(i64 %1, i64 0), !namer !35
+Profile has incomplete allocation coverage because   %smax = tail call i64 @llvm.smax.i64(i64 %11, i64 0), !namer !51
+Profile has incomplete allocation coverage because   %smax4 = tail call i64 @llvm.smax.i64(i64 %10, i64 0), !namer !52
+Profile has incomplete allocation coverage because   %smax = tail call i64 @llvm.smax.i64(i64 %1, i64 0), !namer !36
+Profile has incomplete allocation coverage because   %smax = tail call i64 @llvm.smax.i64(i64 %0, i64 0), !namer !33
+Profile has incomplete allocation coverage because   %smax = tail call i64 @llvm.smax.i64(i64 %0, i64 0), !namer !33
+SpecPrivProfiler loader: Structure good/good, Read 410 good lines, 0 bad lines
+#################################################
+ Classification
+
+
+***************** Classify: FFT1D :: ..split_crit_edge *****************
+( IO )
+There is a flow from:
+>>FFT1DOnce  %54 = tail call i32 (i8*, ...) @printf(i8* noundef nonnull dereferenceable(1) %53, i64 %.0.lcssa) #11, !namer !122
+to:
+>>FFT1DOnce  %54 = tail call i32 (i8*, ...) @printf(i8* noundef nonnull dereferenceable(1) %53, i64 %.0.lcssa) #11, !namer !122
+
+Classification report: Valid for:   Loop FFT1D :: ..split_crit_edge, 
+  Found 1 shared AUs:
+    o shared[sh=4] IO (FFT1D :: ..split_crit_edge) #regression
+  Found 0 local AUs:
+  Found 0 reduction AUs:
+  Found 2 private AUs:
+    o priv[sh=5] HEAP main bbName25  AT FCN main WITHIN TOP (FFT1D :: ..split_crit_edge) #regression
+    o priv[sh=1] GLOBAL is_output (FFT1D :: ..split_crit_edge) #regression
+  Found 1 cheap private AUs:
+    o cheap_priv[sh=1] GLOBAL is_output (FFT1D :: ..split_crit_edge) #regression
+  Found 0 kill private AUs:
+  Found 0 shareable private AUs:
+  Found 2 read-only (live-in) AUs:
+    o ro HEAP SlaveStart bbName3  AT FCN SlaveStart WITHIN FCN main WITHIN TOP (FFT1D :: ..split_crit_edge) #regression
+    o ro CONSTANT .str.71 (FFT1D :: ..split_crit_edge) #regression
+***************** Classify: FFT1D :: bbName8 *****************
+( GLOBAL is_output )
+There is a flow from:
+>>FFT1DOnce  store i32 0, i32* @is_output, align 4, !tbaa !116, !namer !123
+to:
+>>FFT1DOnce  %51 = load i32, i32* @is_output, align 4, !tbaa !116, !namer !118
+
+( IO )
+There is a flow from:
+>>FFT1DOnce  %54 = tail call i32 (i8*, ...) @printf(i8* noundef nonnull dereferenceable(1) %53, i64 %.0.lcssa) #11, !namer !122
+to:
+>>FFT1DOnce  %54 = tail call i32 (i8*, ...) @printf(i8* noundef nonnull dereferenceable(1) %53, i64 %.0.lcssa) #11, !namer !122
+
+Classification report: Valid for:   Loop FFT1D :: bbName8, 
+  Found 2 shared AUs:
+    o shared[sh=4] IO (FFT1D :: bbName8) #regression
+    o shared[sh=1] GLOBAL is_output (FFT1D :: bbName8) #regression
+  Found 0 local AUs:
+  Found 0 reduction AUs:
+  Found 1 private AUs:
+    o priv[sh=7] HEAP main bbName25  AT FCN main WITHIN TOP (FFT1D :: bbName8) #regression
+  Found 0 kill private AUs:
+  Found 0 shareable private AUs:
+  Found 3 read-only (live-in) AUs:
+    o ro HEAP SlaveStart bbName3  AT FCN SlaveStart WITHIN FCN main WITHIN TOP (FFT1D :: bbName8) #regression
+    o ro HEAP main bbName25  AT FCN main WITHIN TOP (FFT1D :: bbName8) #regression
+    o ro CONSTANT .str.71 (FFT1D :: bbName8) #regression
+***************** Classify: InitU2 :: bbName1 *****************
+Classification report: Valid for:   Loop InitU2 :: bbName1, 
+  Found 0 shared AUs:
+  Found 0 local AUs:
+  Found 0 reduction AUs:
+  Found 0 private AUs:
+  Found 1 cheap private AUs:
+    o cheap_priv[sh=4] HEAP main bbName25  AT FCN main WITHIN TOP (InitU2 :: bbName1) #regression
+  Found 1 kill private AUs:
+    o kill_priv[sh=4] HEAP main bbName25  AT FCN main WITHIN TOP (InitU2 :: bbName1) #regression
+  Found 0 shareable private AUs:
+  Found 2 read-only (live-in) AUs:
+    o ro GLOBAL rootN (InitU2 :: bbName1) #regression
+    o ro GLOBAL pad_length (InitU2 :: bbName1) #regression
+***************** Classify: InitU2 :: bbName3 *****************
+Classification report: Valid for:   Loop InitU2 :: bbName3, 
+  Found 0 shared AUs:
+  Found 0 local AUs:
+  Found 0 reduction AUs:
+  Found 0 private AUs:
+  Found 1 cheap private AUs:
+    o cheap_priv[sh=4] HEAP main bbName25  AT FCN main WITHIN TOP (InitU2 :: bbName3) #regression
+  Found 0 kill private AUs:
+  Found 1 shareable private AUs:
+    o share_priv[sh=4] HEAP main bbName25  AT FCN main WITHIN TOP (InitU2 :: bbName3) #regression
+  Found 0 read-only (live-in) AUs:
+***************** Classify: InitX :: bbName1 *****************
+Classification report: Valid for:   Loop InitX :: bbName1, 
+  Found 0 shared AUs:
+  Found 0 local AUs:
+  Found 0 reduction AUs:
+  Found 1 private AUs:
+    o priv[sh=5] HEAP main bbName25  AT FCN main WITHIN TOP (InitX :: bbName1) #regression
+  Found 2 cheap private AUs:
+    o cheap_priv[sh=5] HEAP main bbName25  AT FCN main WITHIN TOP (InitX :: bbName1) #regression
+    o cheap_priv[sh=4] IO (InitX :: bbName1) #regression
+  Found 0 kill private AUs:
+  Found 1 shareable private AUs:
+    o share_priv[sh=4] IO (InitX :: bbName1) #regression
+  Found 2 read-only (live-in) AUs:
+    o ro GLOBAL rootN (InitX :: bbName1) #regression
+    o ro GLOBAL pad_length (InitX :: bbName1) #regression
+***************** Classify: InitX :: bbName3 *****************
+Classification report: Valid for:   Loop InitX :: bbName3, 
+  Found 0 shared AUs:
+  Found 0 local AUs:
+  Found 0 reduction AUs:
+  Found 0 private AUs:
+  Found 2 cheap private AUs:
+    o cheap_priv[sh=5] HEAP main bbName25  AT FCN main WITHIN TOP (InitX :: bbName3) #regression
+    o cheap_priv[sh=4] IO (InitX :: bbName3) #regression
+  Found 0 kill private AUs:
+  Found 2 shareable private AUs:
+    o share_priv[sh=5] HEAP main bbName25  AT FCN main WITHIN TOP (InitX :: bbName3) #regression
+    o share_priv[sh=4] IO (InitX :: bbName3) #regression
+  Found 1 read-only (live-in) AUs:
+    o ro GLOBAL rootN (InitX :: bbName3) #regression
+***************** Classify: Reverse :: bbName1 *****************
+Classification report: Valid for:   Loop Reverse :: bbName1, 
+  Found 0 shared AUs:
+  Found 0 local AUs:
+  Found 0 reduction AUs:
+  Found 2 private AUs:
+    o priv[sh=5] HEAP main bbName25  AT FCN main WITHIN TOP (Reverse :: bbName1) #regression
+    o priv[sh=7] HEAP main bbName25  AT FCN main WITHIN TOP (Reverse :: bbName1) #regression
+  Found 0 kill private AUs:
+  Found 0 shareable private AUs:
+  Found 0 read-only (live-in) AUs:
+***************** Classify: SlaveStart :: bbName5 *****************
+Classification report: Valid for:   Loop SlaveStart :: bbName5, 
+  Found 0 shared AUs:
+  Found 0 local AUs:
+  Found 0 reduction AUs:
+  Found 0 private AUs:
+  Found 1 cheap private AUs:
+    o cheap_priv[sh=3] HEAP SlaveStart bbName3  AT FCN SlaveStart WITHIN FCN main WITHIN TOP (SlaveStart :: bbName5) #regression
+  Found 0 kill private AUs:
+  Found 1 shareable private AUs:
+    o share_priv[sh=3] HEAP SlaveStart bbName3  AT FCN SlaveStart WITHIN FCN main WITHIN TOP (SlaveStart :: bbName5) #regression
+  Found 1 read-only (live-in) AUs:
+    o ro HEAP main bbName25  AT FCN main WITHIN TOP (SlaveStart :: bbName5) #regression
+***************** Classify: TouchArray :: bbName1 *****************
+Classification report: Valid for:   Loop TouchArray :: bbName1, 
+  Found 0 shared AUs:
+  Found 0 local AUs:
+  Found 0 reduction AUs:
+  Found 0 private AUs:
+  Found 0 kill private AUs:
+  Found 0 shareable private AUs:
+  Found 1 read-only (live-in) AUs:
+    o ro HEAP SlaveStart bbName3  AT FCN SlaveStart WITHIN FCN main WITHIN TOP (TouchArray :: bbName1) #regression
+***************** Classify: TouchArray :: bbName3 *****************
+Classification report: Valid for:   Loop TouchArray :: bbName3, 
+  Found 0 shared AUs:
+  Found 0 local AUs:
+  Found 0 reduction AUs:
+  Found 0 private AUs:
+  Found 0 kill private AUs:
+  Found 0 shareable private AUs:
+  Found 3 read-only (live-in) AUs:
+    o ro HEAP main bbName25  AT FCN main WITHIN TOP (TouchArray :: bbName3) #regression
+    o ro HEAP main bbName25  AT FCN main WITHIN TOP (TouchArray :: bbName3) #regression
+    o ro HEAP main bbName25  AT FCN main WITHIN TOP (TouchArray :: bbName3) #regression
+***************** Classify: TouchArray :: bbName5 *****************
+Classification report: Valid for:   Loop TouchArray :: bbName5, 
+  Found 0 shared AUs:
+  Found 0 local AUs:
+  Found 0 reduction AUs:
+  Found 0 private AUs:
+  Found 0 kill private AUs:
+  Found 0 shareable private AUs:
+  Found 3 read-only (live-in) AUs:
+    o ro HEAP main bbName25  AT FCN main WITHIN TOP (TouchArray :: bbName5) #regression
+    o ro HEAP main bbName25  AT FCN main WITHIN TOP (TouchArray :: bbName5) #regression
+    o ro HEAP main bbName25  AT FCN main WITHIN TOP (TouchArray :: bbName5) #regression
+***************** Classify: Transpose :: .preheader *****************
+PLEASE submit a bug report to https://bugs.llvm.org/ and include the crash backtrace.
+Stack dump:
+0.	Program arguments: opt --enable-new-pm=0 -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/CallGraph.so -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/libSvf.so -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/libCudd.so -stat=false -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/libSCAFUtilities.so -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/libMemoryAnalysisModules.so -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/AllocAA.so -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/TalkDown.so -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/CallGraph.so -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/PDGAnalysis.so -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/Architecture.so -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/BasicUtilities.so -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/Task.so -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/DataFlow.so -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/HotProfiler.so -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/LoopStructure.so -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/Invariants.so -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/InductionVariables.so -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/Loops.so -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/Scheduler.so -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/OutlinerPass.so -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/MetadataManager.so -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/LoopTransformer.so -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/Noelle.so -globals-aa -cfl-steens-aa -tbaa -scev-aa -cfl-anders-aa --basic-aa --objc-arc-aa -basic-loop-aa -scev-loop-aa -auto-restrict-aa -intrinsic-aa -global-malloc-aa -pure-fun-aa -semi-local-fun-aa -phi-maze-aa -no-capture-global-aa -no-capture-src-aa -type-aa -no-escape-fields-aa -acyclic-aa -disjoint-fields-aa -field-malloc-aa -loop-variant-allocation-aa -std-in-out-err-aa -array-of-structures-aa -kill-flow-aa -callsite-depth-combinator-aa -unique-access-paths-aa -llvm-aa-results -scalar-evolution -loops -domtree -postdomtree -noellescaf -noellesvf -load /home/shenghao/fcc-0.8-uptodate/install/fcc-install-debug/lib/libUtil.so -load /home/shenghao/fcc-0.8-uptodate/install/fcc-install-debug/lib/libLoopProf.so -load /home/shenghao/fcc-0.8-uptodate/install/fcc-install-debug/lib/libMetadata.so -load /home/shenghao/fcc-0.8-uptodate/install/fcc-install-debug/lib/libLAMPLoad.so -load /home/shenghao/fcc-0.8-uptodate/install/fcc-install-debug/lib/libLAMP.so -load /home/shenghao/fcc-0.8-uptodate/install/fcc-install-debug/lib/libRedux.so -load /home/shenghao/fcc-0.8-uptodate/install/fcc-install-debug/lib/libPointsToProfiler.so -load /home/shenghao/fcc-0.8-uptodate/install/fcc-install-debug/lib/libGraphAlgorithms.so -load /home/shenghao/fcc-0.8-uptodate/install/fcc-install-debug/lib/libGraphAlgorithms.so -load /home/shenghao/fcc-0.8-uptodate/install/fcc-install-debug/lib/libStrategy.so -load /home/shenghao/fcc-0.8-uptodate/install/fcc-install-debug/lib/libOrchestration.so -load /home/shenghao/fcc-0.8-uptodate/install/fcc-install-debug/lib/libSpeculation.so -load /home/shenghao/fcc-0.8-uptodate/install/fcc-install-debug/lib/libCodeGen.so -lamp-inst-cnt -lamp-map-loop -lamp-load-profile -basic-loop-aa -scev-loop-aa -auto-restrict-aa -intrinsic-aa -global-malloc-aa -pure-fun-aa -semi-local-fun-aa -phi-maze-aa -no-capture-global-aa -no-capture-src-aa -type-aa -no-escape-fields-aa -acyclic-aa -disjoint-fields-aa -field-malloc-aa -loop-variant-allocation-aa -std-in-out-err-aa -array-of-structures-aa -kill-flow-aa -callsite-depth-combinator-aa -unique-access-paths-aa -llvm-aa-results -basic-aa -globals-aa -cfl-steens-aa -tbaa -scev-aa -cfl-anders-aa -objc-arc-aa --scoped-noalias-aa -veto -nander -read-specpriv-profile -remed-selector -spec-priv-preprocess -spec-priv-apply-separation-spec -spec-priv-apply-control-spec -spec-priv-apply-value-pred-spec -specpriv-mtcg benchmark.bc -o benchmark.collaborative-pipeline-nopeep.bc
+1.	Running pass 'Classify all AUs as one of LOCAL, PRIVATE, REDUCTION, SHARED or READ-ONLY' on module 'benchmark.bc'.
+#0 0x00007faa34385791 llvm::sys::PrintStackTrace(llvm::raw_ostream&, int) (/usr/lib/llvm-13/lib/libLLVM-13.so.1+0xd95791)
+#1 0x00007faa34383940 llvm::sys::RunSignalHandlers() (/usr/lib/llvm-13/lib/libLLVM-13.so.1+0xd93940)
+#2 0x00007faa34385c92 (/usr/lib/llvm-13/lib/libLLVM-13.so.1+0xd95c92)
+#3 0x00007faa33598420 __restore_rt (/lib/x86_64-linux-gnu/libpthread.so.0+0x14420)
+#4 0x00007faa36f69fe9 (/usr/lib/llvm-13/lib/libLLVM-13.so.1+0x3979fe9)
+/home/shenghao/fcc-0.8-uptodate/install/fcc-install-debug/bin/noelle-load: line 50: 3860971 Illegal instruction     (core dumped) opt --enable-new-pm=0 -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/CallGraph.so -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/libSvf.so -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/libCudd.so -stat=false -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/libSCAFUtilities.so -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/libMemoryAnalysisModules.so -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/AllocAA.so -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/TalkDown.so -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/CallGraph.so -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/PDGAnalysis.so -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/Architecture.so -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/BasicUtilities.so -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/Task.so -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/DataFlow.so -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/HotProfiler.so -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/LoopStructure.so -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/Invariants.so -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/InductionVariables.so -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/Loops.so -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/Scheduler.so -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/OutlinerPass.so -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/MetadataManager.so -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/LoopTransformer.so -load /home/shenghao/fcc-0.8-uptodate/install/../noelle/install/lib/Noelle.so -globals-aa -cfl-steens-aa -tbaa -scev-aa -cfl-anders-aa --basic-aa --objc-arc-aa -basic-loop-aa -scev-loop-aa -auto-restrict-aa -intrinsic-aa -global-malloc-aa -pure-fun-aa -semi-local-fun-aa -phi-maze-aa -no-capture-global-aa -no-capture-src-aa -type-aa -no-escape-fields-aa -acyclic-aa -disjoint-fields-aa -field-malloc-aa -loop-variant-allocation-aa -std-in-out-err-aa -array-of-structures-aa -kill-flow-aa -callsite-depth-combinator-aa -unique-access-paths-aa -llvm-aa-results -scalar-evolution -loops -domtree -postdomtree -noellescaf -noellesvf -load /home/shenghao/fcc-0.8-uptodate/install/fcc-install-debug/lib/libUtil.so -load /home/shenghao/fcc-0.8-uptodate/install/fcc-install-debug/lib/libLoopProf.so -load /home/shenghao/fcc-0.8-uptodate/install/fcc-install-debug/lib/libMetadata.so -load /home/shenghao/fcc-0.8-uptodate/install/fcc-install-debug/lib/libLAMPLoad.so -load /home/shenghao/fcc-0.8-uptodate/install/fcc-install-debug/lib/libLAMP.so -load /home/shenghao/fcc-0.8-uptodate/install/fcc-install-debug/lib/libRedux.so -load /home/shenghao/fcc-0.8-uptodate/install/fcc-install-debug/lib/libPointsToProfiler.so -load /home/shenghao/fcc-0.8-uptodate/install/fcc-install-debug/lib/libGraphAlgorithms.so -load /home/shenghao/fcc-0.8-uptodate/install/fcc-install-debug/lib/libGraphAlgorithms.so -load /home/shenghao/fcc-0.8-uptodate/install/fcc-install-debug/lib/libStrategy.so -load /home/shenghao/fcc-0.8-uptodate/install/fcc-install-debug/lib/libOrchestration.so -load /home/shenghao/fcc-0.8-uptodate/install/fcc-install-debug/lib/libSpeculation.so -load /home/shenghao/fcc-0.8-uptodate/install/fcc-install-debug/lib/libCodeGen.so -lamp-inst-cnt -lamp-map-loop -lamp-load-profile -basic-loop-aa -scev-loop-aa -auto-restrict-aa -intrinsic-aa -global-malloc-aa -pure-fun-aa -semi-local-fun-aa -phi-maze-aa -no-capture-global-aa -no-capture-src-aa -type-aa -no-escape-fields-aa -acyclic-aa -disjoint-fields-aa -field-malloc-aa -loop-variant-allocation-aa -std-in-out-err-aa -array-of-structures-aa -kill-flow-aa -callsite-depth-combinator-aa -unique-access-paths-aa -llvm-aa-results -basic-aa -globals-aa -cfl-steens-aa -tbaa -scev-aa -cfl-anders-aa -objc-arc-aa --scoped-noalias-aa -veto -nander -read-specpriv-profile -remed-selector -spec-priv-preprocess -spec-priv-apply-separation-spec -spec-priv-apply-control-spec -spec-priv-apply-value-pred-spec -specpriv-mtcg benchmark.bc -o benchmark.collaborative-pipeline-nopeep.bc

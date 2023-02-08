@@ -1,0 +1,77 @@
+#File produced by LAMP Load Profiling pass
+#This file contains information on intra-iteration dependences
+#[var1 @ function * bbname -- var2 @ function * bbname] line1#line2# LAMPdata Loop: LoopID LAMPdata
+#var1 depends on var2
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+[##ORIG @ InitA * bbName3 -- ##ORIG @ InitA * bbName2]	UNKNOWN#UNKNOWN#	0x1861400 0x1860fb0 ID:163 160 Loop:9 (0x184b680) T:128 P:0.00775194  1 Tl:128 Pl:0.00775194
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+ Tl:1 Pl:1
+[##ORIG @ bdiv * bbName4 -- ##ORIG @ lu0 * bbName3]	UNKNOWN#UNKNOWN#	0x18d0030 0x1858fa0 ID:272 270 Loop:27 (0x189a740) T:3360 P:373.333  4 Tl:7 Pl:0.777778
+ Tl:1 Pl:1
+[##ORIG @ bmodd * bbName2 -- ##ORIG @ daxpy * bbName2]	UNKNOWN#UNKNOWN#	0x18d53e0 0x18de1e0 ID:275 284 Loop:27 (0x189a740) T:6720 P:746.667  4 Tl:7 Pl:0.777778
+ Tl:1 Pl:1
+[##ORIG @ bmod * bbName3 -- ##ORIG @ bmodd * bbName2]	UNKNOWN#UNKNOWN#	0x18daf10 0x18d5730 ID:280 277 Loop:27 (0x189a740) T:35840 P:3982.22  5 Tl:7 Pl:0.777778
+ Tl:1 Pl:1
+[##ORIG @ daxpy * bbName2 -- ##ORIG @ daxpy * bbName2]	UNKNOWN#UNKNOWN#	0x18ddf20 0x18de1e0 ID:282 284 Loop:27 (0x189a740) T:584640 P:64960  5 Tl:7 Pl:0.777778
+ Tl:1 Pl:1
+ Tl:1 Pl:1

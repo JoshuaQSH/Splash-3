@@ -1,0 +1,24 @@
+#File produced by LAMP Load Profiling pass
+#This file contains information on loop-carried dependences
+#[var1 @ function * bbname -- var2 @ function * bbname] line1#line2# LAMPdata Loop: LoopID LAMPdata
+#var1 depends on var2
+[##ORIG @ InitA * bbName7 -- ##ORIG @ InitA * bbName7]	UNKNOWN#UNKNOWN#	0x1862810 0x1862930 ID:170 171 Loop:7 (0x184b900) T:16256 P:126.016  2 Tl:127 Pl:0.984496
+[##ORIG @ lu * bbName29 -- ##ORIG @ lu * bbName29]	UNKNOWN#UNKNOWN#	0x18b6380 0x18b64a0 ID:257 258 Loop:27 (0x189a740) T:7 P:0.777778  3 Tl:7 Pl:0.777778
+[##ORIG @ lu * bbName29 -- ##ORIG @ lu * bbName29]	UNKNOWN#UNKNOWN#	0x18b6610 0x18b6730 ID:259 260 Loop:27 (0x189a740) T:7 P:0.777778  3 Tl:7 Pl:0.777778
+[##ORIG @ lu * bbName29 -- ##ORIG @ lu * bbName29]	UNKNOWN#UNKNOWN#	0x18b68a0 0x18b69c0 ID:261 262 Loop:27 (0x189a740) T:7 P:0.777778  3 Tl:7 Pl:0.777778
+[##ORIG @ lu * bbName29 -- ##ORIG @ lu * bbName29]	UNKNOWN#UNKNOWN#	0x18b6c50 0x18b6d70 ID:263 264 Loop:27 (0x189a740) T:7 P:0.777778  3 Tl:7 Pl:0.777778
+[##ORIG @ lu0 * bbName3 -- ##ORIG @ daxpy * bbName2]	UNKNOWN#UNKNOWN#	0x1858c50 0x18de1e0 ID:268 284 Loop:27 (0x189a740) T:105 P:11.6667  3 Tl:7 Pl:0.777778
+[##ORIG @ lu0 * bbName3 -- ##ORIG @ daxpy * bbName2]	UNKNOWN#UNKNOWN#	0x1858c50 0x18de1e0 ID:268 284 Loop:29 (0x1853bf0) T:840 P:6.17647  4 Tl:112 Pl:0.823529
+[##ORIG @ lu0 * bbName3 -- ##ORIG @ daxpy * bbName2]	UNKNOWN#UNKNOWN#	0x1858e80 0x18de1e0 ID:269 284 Loop:27 (0x189a740) T:105 P:11.6667  4 Tl:7 Pl:0.777778
+[##ORIG @ lu0 * bbName3 -- ##ORIG @ daxpy * bbName2]	UNKNOWN#UNKNOWN#	0x1858e80 0x18de1e0 ID:269 284 Loop:29 (0x1853bf0) T:840 P:6.17647  4 Tl:112 Pl:0.823529
+[##ORIG @ bmodd * bbName2 -- ##ORIG @ daxpy * bbName2]	UNKNOWN#UNKNOWN#	0x18d53e0 0x18de1e0 ID:275 284 Loop:27 (0x189a740) T:336 P:37.3333  4 Tl:6 Pl:0.666667
+[##ORIG @ bmodd * bbName2 -- ##ORIG @ daxpy * bbName2]	UNKNOWN#UNKNOWN#	0x18d5610 0x18de1e0 ID:276 284 Loop:27 (0x189a740) T:336 P:37.3333  4 Tl:6 Pl:0.666667
+[##ORIG @ bmodd * bbName2 -- ##ORIG @ daxpy * bbName2]	UNKNOWN#UNKNOWN#	0x18d5610 0x18de1e0 ID:276 284 Loop:33 (0x18d0a60) T:6720 P:14.1176  5 Tl:420 Pl:0.882353
+[##ORIG @ daxpy * bbName2 -- ##ORIG @ daxpy * bbName2]	UNKNOWN#UNKNOWN#	0x18ddf20 0x18de1e0 ID:282 284 Loop:27 (0x189a740) T:34951 P:3883.44  5 Tl:7 Pl:0.777778
+[##ORIG @ daxpy * bbName2 -- ##ORIG @ daxpy * bbName2]	UNKNOWN#UNKNOWN#	0x18ddf20 0x18de1e0 ID:282 284 Loop:29 (0x1853bf0) T:8120 P:59.7059  5 Tl:112 Pl:0.823529
+[##ORIG @ daxpy * bbName2 -- ##ORIG @ daxpy * bbName2]	UNKNOWN#UNKNOWN#	0x18ddf20 0x18de1e0 ID:282 284 Loop:31 (0x18598b0) T:47040 P:98.8235  6 Tl:392 Pl:0.823529
+[##ORIG @ daxpy * bbName2 -- ##ORIG @ daxpy * bbName2]	UNKNOWN#UNKNOWN#	0x18de0c0 0x18de1e0 ID:283 284 Loop:27 (0x189a740) T:34951 P:3883.44  6 Tl:7 Pl:0.777778
+[##ORIG @ daxpy * bbName2 -- ##ORIG @ daxpy * bbName2]	UNKNOWN#UNKNOWN#	0x18de0c0 0x18de1e0 ID:283 284 Loop:29 (0x1853bf0) T:8120 P:59.7059  6 Tl:112 Pl:0.823529
+[##ORIG @ daxpy * bbName2 -- ##ORIG @ daxpy * bbName2]	UNKNOWN#UNKNOWN#	0x18de0c0 0x18de1e0 ID:283 284 Loop:31 (0x18598b0) T:47040 P:98.8235  6 Tl:392 Pl:0.823529
+[##ORIG @ daxpy * bbName2 -- ##ORIG @ daxpy * bbName2]	UNKNOWN#UNKNOWN#	0x18de0c0 0x18de1e0 ID:283 284 Loop:33 (0x18d0a60) T:47040 P:98.8235  6 Tl:392 Pl:0.823529
+[##ORIG @ daxpy * bbName2 -- ##ORIG @ daxpy * bbName2]	UNKNOWN#UNKNOWN#	0x18de0c0 0x18de1e0 ID:283 284 Loop:35 (0x18d6040) T:537600 P:225.882  7 Tl:2100 Pl:0.882353
